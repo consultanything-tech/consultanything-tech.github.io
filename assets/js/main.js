@@ -392,4 +392,240 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // Ambient Hero 2D Canvas Constellation & Data Stream Background
+  function initHeroCanvas() {
+    const canvas = document.getElementById("hero-canvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const heroSection = document.getElementById("hero") || canvas.parentElement;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let width = 0;
+    let height = 0;
+    let animationFrameId = null;
+    let particles = [];
+    const PARTICLE_COUNT = 45;
+    const CONNECT_DISTANCE = 130;
+    const MOUSE_RADIUS = 160;
+
+    const mouse = {
+      x: null,
+      y: null,
+      isActive: false,
+    };
+
+    const colors = [
+      "rgba(20, 184, 166, ", // #14b8a6 teal-500
+      "rgba(45, 212, 191, ", // #2dd4bf teal-400
+      "rgba(6, 182, 212, ",  // #06b6d4 cyan-500
+    ];
+
+    function resize() {
+      if (!canvas || !heroSection) return;
+      const rect = heroSection.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    }
+
+    class Particle {
+      constructor() {
+        this.reset(true);
+      }
+
+      reset(init = false) {
+        this.x = init ? Math.random() * width : Math.random() * width;
+        this.y = init ? Math.random() * height : (Math.random() < 0.5 ? 0 : height);
+        this.baseRadius = 1.2 + Math.random() * 1.6;
+        this.radius = this.baseRadius;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.colorBase = colors[Math.floor(Math.random() * colors.length)];
+        this.alpha = 0.25 + Math.random() * 0.45;
+        this.pulseSpeed = 0.015 + Math.random() * 0.02;
+        this.pulseOffset = Math.random() * Math.PI * 2;
+      }
+
+      update(time) {
+        // Floating drift
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Boundary wrap
+        if (this.x < -10) this.x = width + 10;
+        else if (this.x > width + 10) this.x = -10;
+        if (this.y < -10) this.y = height + 10;
+        else if (this.y > height + 10) this.y = -10;
+
+        // Gentle attraction to active pointer
+        if (mouse.isActive && mouse.x !== null && mouse.y !== null) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < MOUSE_RADIUS && dist > 1) {
+            const force = (1 - dist / MOUSE_RADIUS) * 0.035;
+            this.vx += (dx / dist) * force;
+            this.vy += (dy / dist) * force;
+          }
+        }
+
+        // Dampen velocity to prevent runaway speed
+        this.vx *= 0.985;
+        this.vy *= 0.985;
+
+        // Minimum drift persistence
+        const speed = Math.hypot(this.vx, this.vy);
+        if (speed < 0.1) {
+          this.vx += (Math.random() - 0.5) * 0.04;
+          this.vy += (Math.random() - 0.5) * 0.04;
+        }
+
+        this.currentAlpha = this.alpha + Math.sin(time * this.pulseSpeed + this.pulseOffset) * 0.15;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `${this.colorBase}${Math.max(0.1, Math.min(1, this.currentAlpha))})`;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = width < 640 ? 25 : PARTICLE_COUNT;
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function drawConnections() {
+      const len = particles.length;
+      for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
+          const p1 = particles[i];
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < CONNECT_DISTANCE) {
+            const alpha = (1 - dist / CONNECT_DISTANCE) * 0.18;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(45, 212, 191, ${alpha})`;
+            ctx.lineWidth = 0.75;
+            ctx.stroke();
+          }
+        }
+
+        // Connect particle to cursor if within reach
+        if (mouse.isActive && mouse.x !== null && mouse.y !== null) {
+          const p = particles[i];
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < MOUSE_RADIUS) {
+            const alpha = (1 - dist / MOUSE_RADIUS) * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(20, 184, 166, ${alpha})`;
+            ctx.lineWidth = 0.9;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function render(time = 0) {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach((p) => {
+        p.update(time);
+        p.draw();
+      });
+      drawConnections();
+    }
+
+    function animate(time) {
+      render(time * 0.05);
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    function startAnimation() {
+      if (reducedMotionQuery.matches) {
+        // Accessibility: Render a single elegant static frame without continuous RAF loop
+        render(0);
+        return;
+      }
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    }
+
+    function stopAnimation() {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    }
+
+    // Pointer interaction tracking
+    if (heroSection) {
+      heroSection.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        mouse.isActive = true;
+      });
+
+      heroSection.addEventListener("mouseleave", () => {
+        mouse.isActive = false;
+        mouse.x = null;
+        mouse.y = null;
+      });
+    }
+
+    resize();
+    initParticles();
+    startAnimation();
+
+    if (window.ResizeObserver) {
+      const resizeObserver = new ResizeObserver(() => {
+        resize();
+        if (reducedMotionQuery.matches) render(0);
+      });
+      resizeObserver.observe(heroSection);
+    } else {
+      window.addEventListener("resize", () => {
+        resize();
+        if (reducedMotionQuery.matches) render(0);
+      }, { passive: true });
+    }
+
+    if (reducedMotionQuery.addEventListener) {
+      reducedMotionQuery.addEventListener("change", (e) => {
+        if (e.matches) {
+          stopAnimation();
+          render(0);
+        } else {
+          startAnimation();
+        }
+      });
+    }
+  }
+
+  // Initialize Hero Canvas Constellation
+  initHeroCanvas();
 });

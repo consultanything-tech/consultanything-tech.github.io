@@ -135,55 +135,60 @@
   <!-- Main Content Structure -->
   <main id="main-content" tabindex="-1" class="relative z-10 pt-24 pb-20 focus:outline-none">
     <!-- Hero Section -->
-    <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 text-center">
-      <!-- Status Badge -->
-      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/70 text-emerald-300 border border-emerald-500/30 mb-8 backdrop-blur-md shadow-sm shadow-emerald-950/50">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>Available for new projects</span>
-        <span class="text-slate-500">&bull;</span>
-        <span class="text-slate-400 font-normal">Web &bull; Cloud &bull; AI &bull; Native Apps</span>
-      </div>
+    <section id="hero" class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 text-center overflow-hidden">
+      <!-- Ambient 2D Canvas Constellation Field -->
+      <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0" aria-hidden="true"></canvas>
 
-      <!-- Hero Headline -->
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        Your Technology Partner for <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-amber-400">What Gets Built</span> and How Well It Works
-      </h1>
-
-      <!-- Value Proposition -->
-      <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        We help startups and growing businesses ship reliable software faster — from cloud infrastructure and web platforms to native apps and AI-powered workflows.
-      </p>
-
-      <!-- Primary & Secondary CTAs -->
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-        <a href="#contact" class="inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold rounded-xl text-white bg-teal-600 hover:bg-teal-500 transition-all duration-200 shadow-lg shadow-teal-600/30 hover:shadow-teal-600/50 hover:-translate-y-0.5">
-          Start a Project
-          <svg class="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
-        <a href="#services" class="inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold rounded-xl text-slate-200 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200 backdrop-blur-md hover:-translate-y-0.5">
-          See What We Do
-        </a>
-      </div>
-
-      <!-- Trust Signals -->
-      <div class="mt-16 pt-12 border-t border-zinc-800/80 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
-        <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
-          <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">7+</div>
-          <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Products &amp; Client Platforms Shipped</div>
+      <div class="relative z-10">
+        <!-- Status Badge -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/70 text-emerald-300 border border-emerald-500/30 mb-8 backdrop-blur-md shadow-sm shadow-emerald-950/50">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Available for new projects</span>
+          <span class="text-slate-500">&bull;</span>
+          <span class="text-slate-400 font-normal">Web &bull; Cloud &bull; AI &bull; Native Apps</span>
         </div>
-        <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
-          <div class="text-3xl sm:text-4xl font-extrabold text-teal-400 tracking-tight">&lt; 24h</div>
-          <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Response Time on Every Inquiry</div>
+
+        <!-- Hero Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
+          Your Technology Partner for <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-amber-400">What Gets Built</span> and How Well It Works
+        </h1>
+
+        <!-- Value Proposition -->
+        <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          We help startups and growing businesses ship reliable software faster — from cloud infrastructure and web platforms to native apps and AI-powered workflows.
+        </p>
+
+        <!-- Primary & Secondary CTAs -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href="#contact" class="inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold rounded-xl text-white bg-teal-600 hover:bg-teal-500 transition-all duration-200 shadow-lg shadow-teal-600/30 hover:shadow-teal-600/50 hover:-translate-y-0.5">
+            Start a Project
+            <svg class="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a href="#services" class="inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold rounded-xl text-slate-200 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200 backdrop-blur-md hover:-translate-y-0.5">
+            See What We Do
+          </a>
         </div>
-        <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
-          <div class="text-3xl sm:text-4xl font-extrabold text-amber-400 tracking-tight">Full</div>
-          <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Stack — Web, Native, Cloud &amp; AI</div>
-        </div>
-        <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
-          <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Direct</div>
-          <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Senior Engineer on Every Engagement</div>
+
+        <!-- Trust Signals -->
+        <div class="mt-16 pt-12 border-t border-zinc-800/80 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
+            <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">7+</div>
+            <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Products &amp; Client Platforms Shipped</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
+            <div class="text-3xl sm:text-4xl font-extrabold text-teal-400 tracking-tight">&lt; 24h</div>
+            <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Response Time on Every Inquiry</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
+            <div class="text-3xl sm:text-4xl font-extrabold text-amber-400 tracking-tight">Full</div>
+            <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Stack — Web, Native, Cloud &amp; AI</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
+            <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Direct</div>
+            <div class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Senior Engineer on Every Engagement</div>
+          </div>
         </div>
       </div>
     </section>

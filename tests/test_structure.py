@@ -806,6 +806,45 @@ class TestSiteStructure(unittest.TestCase):
             "index.html must retain SpendWise repository link",
         )
 
+    def test_21_hero_canvas_constellation(self):
+        """Verify ambient 2D canvas constellation field in hero section."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        js_content = self.js_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+
+        # 1. Canvas element exists inside #hero with aria-hidden="true"
+        self.assertRegex(
+            index_content,
+            r'<canvas[^>]*id=["\']hero-canvas["\'][^>]*aria-hidden=["\']true["\']',
+            "index.html must contain <canvas id='hero-canvas' aria-hidden='true'> inside hero section",
+        )
+
+        # 2. JS contains particle animation, mouse interaction, and reduced motion guard
+        self.assertIn("initHeroCanvas", js_content, "main.js must define or invoke initHeroCanvas")
+        self.assertIn("requestAnimationFrame", js_content, "main.js canvas must use requestAnimationFrame")
+        self.assertRegex(
+            js_content,
+            r'addEventListener\(\s*["\']mousemove["\']|mousemove|pointermove',
+            "main.js canvas must track pointer movement for interactive constellation attraction",
+        )
+        self.assertRegex(
+            js_content,
+            r'prefers-reduced-motion:\s*reduce',
+            "main.js canvas must respect prefers-reduced-motion: reduce",
+        )
+
+        # 3. CSS positions #hero-canvas with pointer-events: none and z-index
+        self.assertRegex(
+            css_content,
+            r'#hero-canvas\s*\{[^}]*pointer-events:\s*none',
+            "styles.css must style #hero-canvas with pointer-events: none",
+        )
+        self.assertRegex(
+            css_content,
+            r'#hero-canvas\s*\{[^}]*z-index:\s*0',
+            "styles.css must style #hero-canvas with z-index: 0",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
