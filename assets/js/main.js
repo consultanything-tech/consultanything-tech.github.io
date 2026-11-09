@@ -648,32 +648,31 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroCanvas();
 
   /**
-   * Interactive Hero System Architecture & Local-First Console
+   * Hero Client Outcome Showcase & Interactive Tabs
    */
   function initHeroConsole() {
+    const consoleContainer = document.getElementById("hero-console");
     const consoleTabs = document.querySelectorAll('.console-tab[role="tab"]');
     const consolePanels = document.querySelectorAll('.console-panel[role="tabpanel"]');
-    const btnSimulateMutation = document.getElementById("btn-simulate-mutation");
-    const btnRunTrace = document.getElementById("btn-run-trace");
-    const localSyncLog = document.getElementById("local-sync-log");
-    const syncRailIndicator = document.getElementById("sync-rail-indicator");
-    const syncRailText = document.getElementById("sync-rail-text");
-    const syncRailSpeed = document.getElementById("sync-rail-speed");
-    const localWriteLatency = document.getElementById("local-write-latency");
-    const edgeSyncState = document.getElementById("edge-sync-state");
-    const agentExecStatus = document.getElementById("agent-exec-status");
-    const traceSteps = document.querySelectorAll(".trace-step");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (!consoleTabs.length) return;
+    if (!consoleTabs.length || !consolePanels.length) return;
 
-    function switchConsoleTab(activeTab) {
-      consoleTabs.forEach((tab) => {
+    let currentIndex = 0;
+    let autoRotateTimer = null;
+    let isPaused = false;
+    let isVisible = true;
+
+    function switchConsoleTab(activeTab, shouldFocus = false) {
+      consoleTabs.forEach((tab, idx) => {
         const isSelected = tab === activeTab;
         tab.setAttribute("aria-selected", String(isSelected));
         tab.setAttribute("tabindex", isSelected ? "0" : "-1");
         if (isSelected) {
+          currentIndex = idx;
           tab.classList.add("border-teal-400", "text-teal-300", "bg-teal-950/30");
           tab.classList.remove("border-transparent", "text-slate-400", "hover:text-slate-200");
+          if (shouldFocus) tab.focus();
         } else {
           tab.classList.remove("border-teal-400", "text-teal-300", "bg-teal-950/30");
           tab.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200");
@@ -708,126 +707,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (nextIndex !== null) {
           e.preventDefault();
-          consoleTabs[nextIndex].focus();
-          switchConsoleTab(consoleTabs[nextIndex]);
+          switchConsoleTab(consoleTabs[nextIndex], true);
         }
       });
     });
 
-    // Local-First Mutation Simulation
-    let mutationCounter = 0;
-    let isSimulatingMutation = false;
-    if (btnSimulateMutation) {
-      btnSimulateMutation.addEventListener("click", () => {
-        if (isSimulatingMutation) return;
-        isSimulatingMutation = true;
-        btnSimulateMutation.disabled = true;
-        btnSimulateMutation.classList.add("opacity-75");
+    // Auto-rotation every ~5 seconds when visible and not hovered/focused
+    function startAutoRotate() {
+      if (reducedMotionQuery.matches) return;
+      stopAutoRotate();
+      autoRotateTimer = setInterval(() => {
+        if (!isPaused && isVisible && consoleTabs.length > 0) {
+          const nextIndex = (currentIndex + 1) % consoleTabs.length;
+          switchConsoleTab(consoleTabs[nextIndex]);
+        }
+      }, 5000);
+    }
 
-        mutationCounter++;
-        const now = new Date();
-        const timeStr = now.toTimeString().split(" ")[0] + "." + String(now.getMilliseconds()).padStart(3, "0");
-        const docId = "doc_8f" + Math.random().toString(16).substring(2, 6);
+    function stopAutoRotate() {
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+        autoRotateTimer = null;
+      }
+    }
 
-        // Immediate 0ms local state write
-        if (localWriteLatency) {
-          localWriteLatency.textContent = "0.08ms";
-          localWriteLatency.classList.add("text-emerald-300");
-        }
-        if (syncRailIndicator) {
-          syncRailIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-ping";
-        }
-        if (syncRailText) {
-          syncRailText.textContent = `CRDT Delta Rail: Syncing delta (1 pending)...`;
-        }
-        if (edgeSyncState) {
-          edgeSyncState.textContent = "Merging...";
-          edgeSyncState.className = "text-amber-400 font-bold";
-        }
-
-        // Add log entry and cap to 15 entries
-        if (localSyncLog) {
-          const logEntry = document.createElement("div");
-          logEntry.className = "text-teal-300 font-mono";
-          logEntry.innerHTML = `[${timeStr}] <span class="text-white font-bold">MUTATION #${mutationCounter}:</span> Local write committed (0ms) &rarr; broadcasting delta (${docId})`;
-          localSyncLog.appendChild(logEntry);
-          while (localSyncLog.children.length > 15) {
-            localSyncLog.removeChild(localSyncLog.firstElementChild);
-          }
-          localSyncLog.scrollTop = localSyncLog.scrollHeight;
-        }
-
-        // Asynchronous Edge CRDT Sync Resolution
-        setTimeout(() => {
-          if (syncRailIndicator) {
-            syncRailIndicator.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
-          }
-          if (syncRailText) {
-            syncRailText.textContent = `CRDT Delta Sync Rail: Idle (0 pending)`;
-          }
-          if (syncRailSpeed) {
-            syncRailSpeed.textContent = `Edge P99: ${(14 + Math.floor(Math.random() * 8))}ms`;
-          }
-          if (edgeSyncState) {
-            edgeSyncState.textContent = "State Merged";
-            edgeSyncState.className = "text-emerald-400 font-bold";
-          }
-          if (localSyncLog) {
-            const confirmEntry = document.createElement("div");
-            confirmEntry.className = "text-emerald-400 font-mono";
-            confirmEntry.innerHTML = `&gt; Cloudflare D1 confirmed state vector match (vector_clock: ${mutationCounter + 124})`;
-            localSyncLog.appendChild(confirmEntry);
-            while (localSyncLog.children.length > 15) {
-              localSyncLog.removeChild(localSyncLog.firstElementChild);
-            }
-            localSyncLog.scrollTop = localSyncLog.scrollHeight;
-          }
-          btnSimulateMutation.disabled = false;
-          btnSimulateMutation.classList.remove("opacity-75");
-          isSimulatingMutation = false;
-        }, 400);
+    if (consoleContainer) {
+      consoleContainer.addEventListener("mouseenter", () => {
+        isPaused = true;
+      });
+      consoleContainer.addEventListener("mouseleave", () => {
+        isPaused = false;
+      });
+      consoleContainer.addEventListener("focusin", () => {
+        isPaused = true;
+      });
+      consoleContainer.addEventListener("focusout", () => {
+        isPaused = false;
       });
     }
 
-    // AI Agent Trace Pipeline Execution
-    let isRunningTrace = false;
-    if (btnRunTrace) {
-      btnRunTrace.addEventListener("click", () => {
-        if (isRunningTrace) return;
-        isRunningTrace = true;
-        btnRunTrace.disabled = true;
-        btnRunTrace.classList.add("opacity-75");
+    // IntersectionObserver to pause hero animation / auto-rotation when off-screen
+    if ("IntersectionObserver" in window && consoleContainer) {
+      const showcaseObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      }, { threshold: 0.1 });
+      showcaseObserver.observe(consoleContainer);
+    }
 
-        if (agentExecStatus) {
-          agentExecStatus.textContent = "Executing...";
-          agentExecStatus.className = "text-amber-400 font-bold";
+    startAutoRotate();
+
+    if (reducedMotionQuery.addEventListener) {
+      reducedMotionQuery.addEventListener("change", (e) => {
+        if (e.matches) {
+          stopAutoRotate();
+        } else {
+          startAutoRotate();
         }
-
-        traceSteps.forEach((step) => {
-          step.classList.remove("border-teal-500", "bg-teal-950/40");
-          step.classList.add("opacity-40");
-        });
-
-        // Step through the pipeline sequentially
-        const stepDelays = [150, 350, 600, 850];
-        stepDelays.forEach((delay, idx) => {
-          setTimeout(() => {
-            if (traceSteps[idx]) {
-              traceSteps[idx].classList.remove("opacity-40");
-              traceSteps[idx].classList.add("border-teal-500", "bg-teal-950/40");
-            }
-
-            if (idx === stepDelays.length - 1) {
-              if (agentExecStatus) {
-                agentExecStatus.textContent = "Completed (124ms total)";
-                agentExecStatus.className = "text-emerald-400 font-bold";
-              }
-              btnRunTrace.disabled = false;
-              btnRunTrace.classList.remove("opacity-75");
-              isRunningTrace = false;
-            }
-          }, delay);
-        });
       });
     }
   }

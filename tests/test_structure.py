@@ -255,8 +255,8 @@ class TestSiteStructure(unittest.TestCase):
         )
         self.assertRegex(
             hero_content,
-            r'href=["\']#(?:products|services)["\']',
-            "Hero section must include a secondary CTA linking to #products or #services",
+            r'href=["\']#(?:products|services|outcomes)["\']',
+            "Hero section must include a secondary CTA linking to #products, #services, or #outcomes",
         )
 
         # Key technical metric highlights or trust signals
@@ -300,7 +300,7 @@ class TestSiteStructure(unittest.TestCase):
             )
 
         # Deliverables and technology tags/badges check
-        for tag in ["Kubernetes", "Rust", "PyTorch", "eBPF"]:
+        for tag in ["Kubernetes", "Rust", "PyTorch", "eBPF", "Auto-Scaling", "iOS", "Android"]:
             self.assertIn(
                 tag,
                 services_content,
@@ -547,6 +547,18 @@ class TestSiteStructure(unittest.TestCase):
             contact_content,
             r'<button[^>]*type=["\']submit["\']',
             "Submit button with type='submit' must exist in contact section",
+        )
+
+        # Contact form labels and headers
+        self.assertRegex(
+            contact_content,
+            r'(?s)<label[^>]*for=["\']contact-email["\'][^>]*>.*?Email\s+address',
+            "Contact form must label contact-email as 'Email address'",
+        )
+        self.assertRegex(
+            contact_content,
+            r'(?s)<h3[^>]*class=["\'][^"\']*["\']>Phone</h3>',
+            "Contact section must feature 'Phone' heading for direct phone contact",
         )
 
         # Accessible error/status container
@@ -865,7 +877,7 @@ class TestSiteStructure(unittest.TestCase):
         )
 
     def test_22_hero_interactive_console(self):
-        """Verify responsive 2-column hero with interactive local-first engineering console."""
+        """Verify responsive 2-column hero with interactive client outcome showcase card."""
         index_content = self.index_path.read_text(encoding="utf-8")
         js_content = self.js_path.read_text(encoding="utf-8")
         css_content = self.css_path.read_text(encoding="utf-8")
@@ -887,59 +899,61 @@ class TestSiteStructure(unittest.TestCase):
         # 3. Terminal header with controls and status indicator
         self.assertRegex(
             index_content,
-            r'LIVE ENGINE|ENGINE ACTIVE|SYSTEM LIVE',
-            "Hero console must display a live engine status indicator",
+            r'PROVEN IN PRODUCTION|LIVE IN PRODUCTION|LIVE PLATFORMS',
+            "Hero showcase must display a live production status indicator",
         )
 
-        # 4. Tablist with 3 specific tab IDs
+        # 4. Tablist with tabs for SPSLNT, The 1494, and SpendWise
         self.assertRegex(
             index_content,
             r'role=["\']tablist["\']',
-            "Hero console must include an accessible role='tablist'",
+            "Hero showcase must include an accessible role='tablist'",
         )
-        for tab_id in ["tab-console-localfirst", "tab-console-agent", "tab-console-native"]:
+        for tab_id in ["tab-console-spslnt", "tab-console-1494", "tab-console-spendwise"]:
             self.assertRegex(
                 index_content,
                 rf'id=["\']{tab_id}["\'][^>]*role=["\']tab["\']|role=["\']tab["\'][^>]*id=["\']{tab_id}["\']',
-                f"Hero console must contain tab with id='{tab_id}' and role='tab'",
+                f"Hero showcase must contain tab with id='{tab_id}' and role='tab'",
             )
 
-        # 5. Tab panels and interactive simulation buttons
-        self.assertRegex(
-            index_content,
-            r'id=["\']btn-simulate-mutation["\']',
-            "Local-first panel must include a '#btn-simulate-mutation' button",
-        )
-        self.assertRegex(
-            index_content,
-            r'id=["\']btn-run-trace["\']',
-            "AI Agent panel must include a '#btn-run-trace' button",
-        )
-        self.assertRegex(
-            index_content,
-            r'P99|Latency|Throughput|req/s',
-            "Native benchmark panel must display latency/throughput metrics",
-        )
+        # 5. Tab panels with accessible role="tabpanel"
+        for panel_id in ["panel-console-spslnt", "panel-console-1494", "panel-console-spendwise"]:
+            self.assertRegex(
+                index_content,
+                rf'id=["\']{panel_id}["\'][^>]*role=["\']tabpanel["\']|role=["\']tabpanel["\'][^>]*id=["\']{panel_id}["\']',
+                f"Hero showcase must contain panel with id='{panel_id}' and role='tabpanel'",
+            )
 
-        # 6. JS interactive handlers and IntersectionObserver
-        self.assertIn("IntersectionObserver", js_content, "main.js must use IntersectionObserver to pause hero animation when off-screen")
-        self.assertRegex(
-            js_content,
-            r'btn-simulate-mutation|simulateMutation',
-            "main.js must handle mutation simulation on #btn-simulate-mutation",
-        )
-        self.assertRegex(
-            js_content,
-            r'btn-run-trace|runTrace',
-            "main.js must handle trace execution on #btn-run-trace",
-        )
+        # 6. Screenshots present in hero showcase
+        for screenshot in ["spslnt.webp", "the1494.webp", "spendwise.webp"]:
+            self.assertRegex(
+                index_content,
+                rf'(?s)id=["\']hero-console["\'].*?{re.escape(screenshot)}',
+                f"Hero showcase must include screenshot '{screenshot}'",
+            )
+
+        # 7. Live public links present
+        for link in ["spslnt.sg", "the1494.com", "spendwise.experthub.store"]:
+            self.assertRegex(
+                index_content,
+                rf'(?s)id=["\']hero-console["\'].*?{re.escape(link)}',
+                f"Hero showcase must link to live platform '{link}'",
+            )
+
+        # 8. JS interactive handlers and IntersectionObserver
+        self.assertIn("IntersectionObserver", js_content, "main.js must use IntersectionObserver")
         self.assertRegex(
             js_content,
             r'tab-console|initHeroConsole',
-            "main.js must implement interactive console tab switching",
+            "main.js must implement interactive console/showcase tab switching",
+        )
+        self.assertRegex(
+            js_content,
+            r'ArrowLeft|ArrowRight',
+            "main.js must implement keyboard navigation for hero showcase tabs",
         )
 
-        # 7. CSS console styling
+        # 9. CSS console styling
         self.assertIn("#hero-console", css_content, "styles.css must contain styles for #hero-console")
 
     def test_23_card_tilt_and_spotlight(self):
@@ -1004,16 +1018,16 @@ class TestSiteStructure(unittest.TestCase):
             "main.js must check prefers-reduced-motion before applying tilt",
         )
 
-        # 4. Task 2 polish items
+        # 4. Showcase a11y polish items: valid tabindex on panels and accessible status indicators
         self.assertRegex(
             index_content,
-            r'id=["\']panel-console-native["\'][^>]*tabindex=["\']0["\']|tabindex=["\']0["\'][^>]*id=["\']panel-console-native["\']',
-            "#panel-console-native must have tabindex='0'",
+            r'id=["\']panel-console-(?:spslnt|1494|spendwise|native)["\'][^>]*tabindex=["\']0["\']|tabindex=["\']0["\'][^>]*id=["\']panel-console-(?:spslnt|1494|spendwise|native)["\']',
+            "Hero showcase panels must have tabindex='0' for keyboard accessibility",
         )
         self.assertRegex(
             index_content,
-            r'id=["\']agent-exec-status["\'][^>]*(?:role=["\']status["\']|aria-live=["\']polite["\'])|role=["\']status["\'][^>]*id=["\']agent-exec-status["\']',
-            "#agent-exec-status must have role='status' or aria-live='polite'",
+            r'id=["\']form-status["\'][^>]*role=["\']alert["\']|role=["\']alert["\'][^>]*id=["\']form-status["\']|(?:role=["\']status["\']|aria-live=["\']polite["\'])',
+            "Page must have accessible status or alert containers with role='status', role='alert', or aria-live='polite'",
         )
 
     def test_24_scroll_reveals_and_counter(self):
@@ -1107,14 +1121,14 @@ class TestSiteStructure(unittest.TestCase):
         # Outcome-oriented headline
         self.assertRegex(
             index_content,
-            r'(?i)(?:Your\s+(?:Product|Software|Platform),\s+Shipped|Senior\s+Engineering\s+for\s+High-Growth)',
-            "Hero headline must emphasize client delivery outcomes (e.g. 'Your Product, Shipped')",
+            r'We Build the Tech\.\s*.*?You Run the Business\.',
+            "Hero headline must emphasize client delivery outcomes: 'We Build the Tech. You Run the Business.'",
         )
         # Context bridge explaining the console's purpose
         self.assertRegex(
             index_content,
-            r'(?i)(?:Interactive\s+System\s+Monitor|Click\s+tabs\s+to\s+test)',
-            "Hero must feature an explanatory caption/context bridge for the interactive runtime console",
+            r'(?i)(?:Client Impact Spotlight|Live Production Platforms|What We(?:\'|&apos;)ve Built)',
+            "Hero must feature an explanatory caption/context bridge for the showcase card",
         )
 
     def test_27_client_outcomes_and_proof_section(self):
@@ -1130,6 +1144,12 @@ class TestSiteStructure(unittest.TestCase):
             index_content,
             r'(?i)(?:Measured\s+Impact|Proven\s+Outcomes|Client\s+Results|Platform\s+Outcomes)',
             "Proof section must showcase measured client impact or proven outcomes",
+        )
+        # SpendWise badge in outcomes section
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Finance App|Personal Finance)',
+            "SpendWise card in outcomes section must feature 'Finance App' or 'Personal Finance' badge",
         )
         # Verified delivery stories for real platforms (SPSLNT, The 1494, SpendWise)
         for platform in ["SPSLNT", "The 1494"]:
