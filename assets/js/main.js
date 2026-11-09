@@ -517,9 +517,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const p2 = particles[j];
           const dx = p1.x - p2.x;
           const dy = p1.y - p2.y;
-          const dist = Math.hypot(dx, dy);
+          const distSq = dx * dx + dy * dy;
+          const maxDistSq = CONNECT_DISTANCE * CONNECT_DISTANCE;
 
-          if (dist < CONNECT_DISTANCE) {
+          if (distSq < maxDistSq) {
+            const dist = Math.sqrt(distSq);
             const alpha = (1 - dist / CONNECT_DISTANCE) * 0.18;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
@@ -535,8 +537,10 @@ document.addEventListener("DOMContentLoaded", () => {
           const p = particles[i];
           const dx = mouse.x - p.x;
           const dy = mouse.y - p.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < MOUSE_RADIUS) {
+          const distSq = dx * dx + dy * dy;
+          const maxMouseDistSq = MOUSE_RADIUS * MOUSE_RADIUS;
+          if (distSq < maxMouseDistSq) {
+            const dist = Math.sqrt(distSq);
             const alpha = (1 - dist / MOUSE_RADIUS) * 0.25;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
@@ -579,6 +583,20 @@ document.addEventListener("DOMContentLoaded", () => {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
       }
+    }
+
+    // IntersectionObserver to pause animation loop when hero is off-screen
+    if ("IntersectionObserver" in window && heroSection) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startAnimation();
+          } else {
+            stopAnimation();
+          }
+        });
+      }, { threshold: 0.05 });
+      heroObserver.observe(heroSection);
     }
 
     // Pointer interaction tracking
@@ -628,4 +646,177 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize Hero Canvas Constellation
   initHeroCanvas();
+
+  /**
+   * Interactive Hero System Architecture & Local-First Console
+   */
+  function initHeroConsole() {
+    const consoleTabs = document.querySelectorAll('.console-tab[role="tab"]');
+    const consolePanels = document.querySelectorAll('.console-panel[role="tabpanel"]');
+    const btnSimulateMutation = document.getElementById("btn-simulate-mutation");
+    const btnRunTrace = document.getElementById("btn-run-trace");
+    const localSyncLog = document.getElementById("local-sync-log");
+    const syncRailIndicator = document.getElementById("sync-rail-indicator");
+    const syncRailText = document.getElementById("sync-rail-text");
+    const syncRailSpeed = document.getElementById("sync-rail-speed");
+    const localWriteLatency = document.getElementById("local-write-latency");
+    const edgeSyncState = document.getElementById("edge-sync-state");
+    const agentExecStatus = document.getElementById("agent-exec-status");
+    const traceSteps = document.querySelectorAll(".trace-step");
+
+    if (!consoleTabs.length) return;
+
+    function switchConsoleTab(activeTab) {
+      consoleTabs.forEach((tab) => {
+        const isSelected = tab === activeTab;
+        tab.setAttribute("aria-selected", String(isSelected));
+        tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+        if (isSelected) {
+          tab.classList.add("border-teal-400", "text-teal-300", "bg-teal-950/30");
+          tab.classList.remove("border-transparent", "text-slate-400", "hover:text-slate-200");
+        } else {
+          tab.classList.remove("border-teal-400", "text-teal-300", "bg-teal-950/30");
+          tab.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200");
+        }
+      });
+
+      const targetPanelId = activeTab.getAttribute("aria-controls");
+      consolePanels.forEach((panel) => {
+        if (panel.id === targetPanelId) {
+          panel.classList.remove("hidden");
+        } else {
+          panel.classList.add("hidden");
+        }
+      });
+    }
+
+    consoleTabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => switchConsoleTab(tab));
+
+      // ARIA Roving Tabindex & Keyboard Navigation
+      tab.addEventListener("keydown", (e) => {
+        let nextIndex = null;
+        if (e.key === "ArrowRight") {
+          nextIndex = (index + 1) % consoleTabs.length;
+        } else if (e.key === "ArrowLeft") {
+          nextIndex = (index - 1 + consoleTabs.length) % consoleTabs.length;
+        } else if (e.key === "Home") {
+          nextIndex = 0;
+        } else if (e.key === "End") {
+          nextIndex = consoleTabs.length - 1;
+        }
+
+        if (nextIndex !== null) {
+          e.preventDefault();
+          consoleTabs[nextIndex].focus();
+          switchConsoleTab(consoleTabs[nextIndex]);
+        }
+      });
+    });
+
+    // Local-First Mutation Simulation
+    let mutationCounter = 0;
+    if (btnSimulateMutation) {
+      btnSimulateMutation.addEventListener("click", () => {
+        mutationCounter++;
+        const now = new Date();
+        const timeStr = now.toTimeString().split(" ")[0] + "." + String(now.getMilliseconds()).padStart(3, "0");
+        const docId = "doc_8f" + Math.random().toString(16).substring(2, 6);
+
+        // Immediate 0ms local state write
+        if (localWriteLatency) {
+          localWriteLatency.textContent = "0.08ms";
+          localWriteLatency.classList.add("text-emerald-300");
+        }
+        if (syncRailIndicator) {
+          syncRailIndicator.className = "w-2 h-2 rounded-full bg-amber-400 animate-ping";
+        }
+        if (syncRailText) {
+          syncRailText.textContent = `CRDT Delta Rail: Syncing delta (1 pending)...`;
+        }
+        if (edgeSyncState) {
+          edgeSyncState.textContent = "Merging...";
+          edgeSyncState.className = "text-amber-400 font-bold";
+        }
+
+        // Add log entry
+        if (localSyncLog) {
+          const logEntry = document.createElement("div");
+          logEntry.className = "text-teal-300 font-mono";
+          logEntry.innerHTML = `[${timeStr}] <span class="text-white font-bold">MUTATION #${mutationCounter}:</span> Local write committed (0ms) &rarr; broadcasting delta (${docId})`;
+          localSyncLog.appendChild(logEntry);
+          localSyncLog.scrollTop = localSyncLog.scrollHeight;
+        }
+
+        // Asynchronous Edge CRDT Sync Resolution
+        setTimeout(() => {
+          if (syncRailIndicator) {
+            syncRailIndicator.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+          }
+          if (syncRailText) {
+            syncRailText.textContent = `CRDT Delta Sync Rail: Idle (0 pending)`;
+          }
+          if (syncRailSpeed) {
+            syncRailSpeed.textContent = `Edge P99: ${(14 + Math.floor(Math.random() * 8))}ms`;
+          }
+          if (edgeSyncState) {
+            edgeSyncState.textContent = "State Merged";
+            edgeSyncState.className = "text-emerald-400 font-bold";
+          }
+          if (localSyncLog) {
+            const confirmEntry = document.createElement("div");
+            confirmEntry.className = "text-emerald-400 font-mono";
+            confirmEntry.innerHTML = `&gt; Cloudflare D1 confirmed state vector match (vector_clock: ${mutationCounter + 124})`;
+            localSyncLog.appendChild(confirmEntry);
+            localSyncLog.scrollTop = localSyncLog.scrollHeight;
+          }
+        }, 400);
+      });
+    }
+
+    // AI Agent Trace Pipeline Execution
+    let isRunningTrace = false;
+    if (btnRunTrace) {
+      btnRunTrace.addEventListener("click", () => {
+        if (isRunningTrace) return;
+        isRunningTrace = true;
+        btnRunTrace.disabled = true;
+        btnRunTrace.classList.add("opacity-75");
+
+        if (agentExecStatus) {
+          agentExecStatus.textContent = "Executing...";
+          agentExecStatus.className = "text-amber-400 font-bold";
+        }
+
+        traceSteps.forEach((step) => {
+          step.classList.remove("border-teal-500", "bg-teal-950/40");
+          step.classList.add("opacity-40");
+        });
+
+        // Step through the pipeline sequentially
+        const stepDelays = [150, 350, 600, 850];
+        stepDelays.forEach((delay, idx) => {
+          setTimeout(() => {
+            if (traceSteps[idx]) {
+              traceSteps[idx].classList.remove("opacity-40");
+              traceSteps[idx].classList.add("border-teal-500", "bg-teal-950/40");
+            }
+
+            if (idx === stepDelays.length - 1) {
+              if (agentExecStatus) {
+                agentExecStatus.textContent = "Completed (124ms total)";
+                agentExecStatus.className = "text-emerald-400 font-bold";
+              }
+              btnRunTrace.disabled = false;
+              btnRunTrace.classList.remove("opacity-75");
+              isRunningTrace = false;
+            }
+          }, delay);
+        });
+      });
+    }
+  }
+
+  // Initialize Hero Console
+  initHeroConsole();
 });

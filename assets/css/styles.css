@@ -100,6 +100,43 @@ body {
   -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 95%);
 }
 
+/* Interactive Hero Systems Console & Architecture Monitor */
+#hero-console {
+  transition: transform var(--duration-normal) var(--ease-standard),
+              border-color var(--duration-normal) var(--ease-standard),
+              box-shadow var(--duration-normal) var(--ease-standard);
+}
+
+#hero-console:hover {
+  border-color: rgba(45, 212, 191, 0.4);
+  box-shadow: 0 20px 40px -15px rgba(20, 184, 166, 0.15), 0 0 0 1px rgba(45, 212, 191, 0.15);
+}
+
+.console-tab {
+  cursor: pointer;
+  outline: none;
+}
+
+.console-tab:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-brand);
+}
+
+.console-panel {
+  animation: fadeInPanel var(--duration-fast) var(--ease-standard);
+}
+
+@keyframes fadeInPanel {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* Interactive Cards */
 .interactive-card {
   transition: transform      var(--duration-normal) var(--ease-standard),

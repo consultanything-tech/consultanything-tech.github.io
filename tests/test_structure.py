@@ -845,6 +845,85 @@ class TestSiteStructure(unittest.TestCase):
             "styles.css must style #hero-canvas with z-index: 0",
         )
 
+    def test_22_hero_interactive_console(self):
+        """Verify responsive 2-column hero with interactive local-first engineering console."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        js_content = self.js_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+
+        # 1. Hero layout uses a responsive 2-column grid
+        self.assertRegex(
+            index_content,
+            r'id=["\']hero["\'][^>]*class=["\'][^"\']*(?:lg:grid-cols-12|lg:grid-cols-2)|class=["\'][^"\']*(?:lg:grid-cols-12|lg:grid-cols-2)[^"\']*["\'][^>]*id=["\']hero["\']',
+            "Hero section must use a responsive 2-column grid (lg:grid-cols-12 or lg:grid-cols-2)",
+        )
+
+        # 2. #hero-console container exists
+        self.assertRegex(
+            index_content,
+            r'id=["\']hero-console["\']',
+            "index.html must contain interactive #hero-console card",
+        )
+
+        # 3. Terminal header with controls and status indicator
+        self.assertRegex(
+            index_content,
+            r'LIVE ENGINE|ENGINE ACTIVE|SYSTEM LIVE',
+            "Hero console must display a live engine status indicator",
+        )
+
+        # 4. Tablist with 3 specific tab IDs
+        self.assertRegex(
+            index_content,
+            r'role=["\']tablist["\']',
+            "Hero console must include an accessible role='tablist'",
+        )
+        for tab_id in ["tab-console-localfirst", "tab-console-agent", "tab-console-native"]:
+            self.assertRegex(
+                index_content,
+                rf'id=["\']{tab_id}["\'][^>]*role=["\']tab["\']|role=["\']tab["\'][^>]*id=["\']{tab_id}["\']',
+                f"Hero console must contain tab with id='{tab_id}' and role='tab'",
+            )
+
+        # 5. Tab panels and interactive simulation buttons
+        self.assertRegex(
+            index_content,
+            r'id=["\']btn-simulate-mutation["\']',
+            "Local-first panel must include a '#btn-simulate-mutation' button",
+        )
+        self.assertRegex(
+            index_content,
+            r'id=["\']btn-run-trace["\']',
+            "AI Agent panel must include a '#btn-run-trace' button",
+        )
+        self.assertRegex(
+            index_content,
+            r'P99|Latency|Throughput|req/s',
+            "Native benchmark panel must display latency/throughput metrics",
+        )
+
+        # 6. JS interactive handlers and IntersectionObserver
+        self.assertIn("IntersectionObserver", js_content, "main.js must use IntersectionObserver to pause hero animation when off-screen")
+        self.assertRegex(
+            js_content,
+            r'btn-simulate-mutation|simulateMutation',
+            "main.js must handle mutation simulation on #btn-simulate-mutation",
+        )
+        self.assertRegex(
+            js_content,
+            r'btn-run-trace|runTrace',
+            "main.js must handle trace execution on #btn-run-trace",
+        )
+        self.assertRegex(
+            js_content,
+            r'tab-console|initHeroConsole',
+            "main.js must implement interactive console tab switching",
+        )
+
+        # 7. CSS console styling
+        self.assertIn("#hero-console", css_content, "styles.css must contain styles for #hero-console")
+
+
 
 if __name__ == "__main__":
     unittest.main()
