@@ -7,6 +7,10 @@
   <meta name="description" content="CATech is a technology consultancy and product studio helping startups and businesses build websites, web apps, mobile apps, cloud systems, and AI tools.">
   <link rel="canonical" href="https://catech.dev/">
 
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/logos/logo-mark.svg">
+  <link rel="apple-touch-icon" href="assets/logos/logo-mark.svg">
+
   <!-- OpenGraph Metadata -->
   <meta property="og:title" content="CATech | Technology Consultancy &amp; Digital Product Studio">
   <meta property="og:description" content="We help startups and growing businesses build websites, web apps, mobile apps, cloud systems, and AI tools — hands-on from day one.">
@@ -28,7 +32,7 @@
     "@type": "ProfessionalService",
     "name": "CATech",
     "url": "https://catech.dev",
-    "email": "hello@catech.dev",
+    "email": "consultanythingtech@gmail.com",
     "telephone": "+65 88240325",
     "description": "Technology consultancy and product studio helping startups and businesses build websites, web apps, mobile apps, cloud systems, and AI tools.",
     "sameAs": [
@@ -81,17 +85,17 @@
 
   <!-- Header Navigation -->
   <header id="main-header" class="fixed top-0 left-0 right-0 z-50 glass-header">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <!-- Brand Logo / Wordmark -->
-      <a href="#" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 rounded-md">
-        <img src="assets/logos/logo-mark.svg" alt="CATech logo mark" class="w-9 h-9 rounded-lg shadow-md shadow-teal-500/20 group-hover:scale-105 transition-transform">
-        <span class="text-xl font-semibold tracking-tight text-white group-hover:text-teal-300 transition-colors">
+      <a href="#" class="flex items-center gap-3.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 rounded-md">
+        <img src="assets/logos/logo-mark.svg" alt="CATech logo mark" class="w-10 h-10 rounded-lg shadow-md shadow-teal-500/20 group-hover:scale-105 transition-transform">
+        <span class="text-xl font-bold tracking-tight text-white group-hover:text-teal-300 transition-colors">
           CATech
         </span>
       </a>
 
       <!-- Desktop Navigation Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300" aria-label="Main Navigation">
+      <nav class="hidden md:flex items-center gap-9 text-sm font-medium text-slate-300" aria-label="Main Navigation">
         <a href="#services" class="hover:text-white transition-colors">Services</a>
         <a href="#products" class="hover:text-white transition-colors">Products</a>
         <a href="#capabilities" class="hover:text-white transition-colors">Technologies</a>
@@ -101,14 +105,14 @@
 
       <!-- Desktop CTA -->
       <div class="hidden md:flex items-center gap-3">
-        <a href="#contact" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg text-white bg-teal-600 hover:bg-teal-500 transition-colors shadow-sm shadow-teal-600/30">
+        <a href="#contact" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-teal-600 hover:bg-teal-500 transition-all duration-200 shadow-md shadow-teal-600/30 hover:shadow-teal-600/50 hover:-translate-y-0.5">
           Start a Project
         </a>
       </div>
 
       <!-- Mobile Menu Button -->
       <div class="flex md:hidden">
-        <button id="mobile-menu-btn" type="button" aria-controls="mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false" class="p-2 text-slate-400 hover:text-white hover:bg-zinc-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
+        <button id="mobile-menu-btn" type="button" aria-controls="mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false" class="p-2.5 text-slate-400 hover:text-white hover:bg-zinc-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
@@ -152,7 +156,7 @@
 
         <!-- Hero Headline -->
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-          Your Technology Partner for <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-amber-400">What Gets Built</span> and How Well It Works
+          Your Product, Shipped. <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-amber-400">Senior Engineering</span> for High-Growth Teams
         </h1>
 
         <!-- Value Proposition -->
@@ -176,6 +180,17 @@
 
       <!-- Right Column: Interactive Local-First & Systems Architecture Console -->
       <div class="relative z-10 lg:col-span-6 w-full">
+        <!-- Interactive Console Context Bridge -->
+        <div class="mb-3 flex items-center justify-between text-xs text-slate-400 font-mono">
+          <span class="inline-flex items-center gap-1.5 text-teal-300 font-medium">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Interactive System Monitor
+          </span>
+          <span class="text-slate-400 hidden sm:inline">Click tabs to test live runtime benchmarks</span>
+        </div>
+
         <div id="hero-console" class="w-full rounded-2xl border border-zinc-800 bg-zinc-950/85 backdrop-blur-xl shadow-2xl shadow-teal-950/30 overflow-hidden font-mono text-left">
           <!-- Terminal Window Header -->
           <div class="flex items-center justify-between px-4 py-3 bg-zinc-900/90 border-b border-zinc-800/80">
@@ -367,6 +382,11 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Micro-CTA Console Exit Link -->
+        <div class="mt-3 text-center text-xs text-slate-400 font-mono">
+          Want this engineering rigor in your product? <a href="#contact" class="text-teal-400 hover:text-teal-300 underline underline-offset-2 transition-colors">Talk to our engineers &rarr;</a>
         </div>
       </div>
 
@@ -636,6 +656,197 @@
       </div>
     </section>
 
+    <!-- Client Outcomes & Social Proof Section -->
+    <section id="outcomes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 reveal-on-scroll">
+      <div class="border-t border-zinc-800/80 pt-16">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-800/50 mb-4">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Proven Outcomes</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+            Client Results &amp; Measured Impact
+          </h2>
+          <p class="mt-4 text-base sm:text-lg text-slate-400 leading-relaxed">
+            We measure our work by what happens after launch — higher reliability, faster page loads, lower cloud bills, and zero-downtime rollouts.
+          </p>
+        </div>
+
+        <!-- 3 Core Outcome Case Study Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Card 1: SPSLNT -->
+          <div class="spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-teal-950/80 text-teal-400 border border-teal-800/60">
+                  Community Platform
+                </span>
+                <span class="text-xs font-mono text-emerald-400 font-bold">100% Uptime</span>
+              </div>
+              <h3 class="text-xl font-bold text-white tracking-tight mb-2">Shri Laxmi Narayan Temple Singapore (SPSLNT)</h3>
+              <p class="text-xs text-teal-300 font-mono mb-4">spslnt.sg &bull; Zero-Downtime Migration</p>
+
+              <!-- Screenshot Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">spslnt.sg</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">100% Uptime</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/spslnt.webp" alt="Shri Laxmi Narayan Temple Singapore live platform screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">Complete digital transformation for Shri Laxmi Narayan Temple Singapore, one of Singapore's revered cultural landmarks. Delivered a high-availability community portal handling festival calendars (Diwali, Janmashtami), online donations, devotee services, and member directory administration with zero downtime during peak traffic spikes.</p>
+              <div class="space-y-2 mb-6 text-xs text-slate-400">
+                <div class="flex items-center justify-between border-b border-zinc-800/60 pb-1.5">
+                  <span>Page Load Speed</span>
+                  <span class="text-emerald-400 font-bold font-mono">&lt; 0.6s P95</span>
+                </div>
+                <div class="flex items-center justify-between border-b border-zinc-800/60 pb-1.5">
+                  <span>Data Migration</span>
+                  <span class="text-emerald-400 font-bold font-mono">0 records lost</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span>Responsive Coverage</span>
+                  <span class="text-emerald-400 font-bold font-mono">Mobile + Desktop</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Production Client</span>
+              <a href="https://spslnt.sg/" target="_blank" rel="noopener noreferrer" aria-label="Visit Shri Laxmi Narayan Temple Portal (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Visit Platform</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: The 1494 -->
+          <div class="spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-950/80 text-amber-400 border border-amber-800/60">
+                  Luxury E-Commerce
+                </span>
+                <span class="text-xs font-mono text-emerald-400 font-bold">&lt; 800ms P99</span>
+              </div>
+              <h3 class="text-xl font-bold text-white tracking-tight mb-2">The 1494</h3>
+              <p class="text-xs text-amber-300 font-mono mb-4">the1494.com &bull; Bespoke Brand &amp; Commerce</p>
+
+              <!-- Screenshot Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">the1494.com</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">&lt; 800ms P99</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/the1494.webp" alt="The 1494 luxury platform live screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                Engineered a luxury brand portal and exclusive member marketplace. Focused on high-fidelity visual presentation, sub-second asset delivery across global CDNs, and seamless customer checkout flows.
+              </p>
+              <div class="space-y-2 mb-6 text-xs text-slate-400">
+                <div class="flex items-center justify-between border-b border-zinc-800/60 pb-1.5">
+                  <span>Performance Score</span>
+                  <span class="text-emerald-400 font-bold font-mono">98/100 Lighthouse</span>
+                </div>
+                <div class="flex items-center justify-between border-b border-zinc-800/60 pb-1.5">
+                  <span>Edge Cache Hit Ratio</span>
+                  <span class="text-emerald-400 font-bold font-mono">94.2%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span>Visual Hierarchy</span>
+                  <span class="text-emerald-400 font-bold font-mono">Bespoke Typography</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Production Client</span>
+              <a href="https://the1494.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Visit Platform</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 3: SpendWise / ScienceHub -->
+          <div class="spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60">
+                  FinTech &amp; Data Engine
+                </span>
+                <span class="text-xs font-mono text-emerald-400 font-bold">0ms Local Write</span>
+              </div>
+              <h3 class="text-xl font-bold text-white tracking-tight mb-2">SpendWise Platform</h3>
+              <p class="text-xs text-cyan-300 font-mono mb-4">spendwise.experthub.store &bull; Local-First</p>
+
+              <!-- Screenshot Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">spendwise.experthub.store</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Local-First</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/spendwise.webp" alt="SpendWise financial planning engine live screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                Personal finance and predictive cash-flow forecasting engine. Built with client-side local-first computation, zero cloud server egress on financial records, and reactive projection graphs.
+              </p>
+              <div class="space-y-2 mb-6 text-xs text-slate-400">
+                <div class="flex items-center justify-between border-b border-zinc-800/60 pb-1.5">
+                  <span>Privacy Architecture</span>
+                  <span class="text-emerald-400 font-bold font-mono">100% Client-Side</span>
+                </div>
+                <div class="flex items-center justify-between border-b border-zinc-800/60 pb-1.5">
+                  <span>Server Infrastructure Cost</span>
+                  <span class="text-emerald-400 font-bold font-mono">$0 / Month</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span>Data Portability</span>
+                  <span class="text-emerald-400 font-bold font-mono">Instant JSON Export</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Live Application</span>
+              <a href="https://spendwise.experthub.store/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Visit Platform</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Products Section -->
     <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 reveal-on-scroll">
       <div class="border-t border-zinc-800/80 pt-16">
@@ -683,7 +894,7 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-xl font-bold text-white tracking-tight">SPSLNT</h3>
+                    <h3 class="text-xl font-bold text-white tracking-tight">Shri Laxmi Narayan Temple (SPSLNT)</h3>
                     <p class="text-xs text-orange-400 font-medium">Community Portal &amp; Member Services</p>
                   </div>
                 </div>
@@ -692,9 +903,23 @@
                 </span>
               </div>
 
-              <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                Singapore community portal, temple cultural events, and member services platform providing real-time festival schedules, donations, and member directory administration.
-              </p>
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">spslnt.sg</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Live Client</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/spslnt.webp" alt="Shri Laxmi Narayan Temple Singapore live platform screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">Official digital platform for Shri Laxmi Narayan Temple Singapore. Features real-time festival schedules, puja bookings, online community donations, and member directory administration engineered for reliable high-concurrency devotee traffic.</p>
 
               <div class="flex flex-wrap gap-2 mb-6">
                 <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Community Portal</span>
@@ -706,7 +931,7 @@
 
             <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
               <span class="text-xs text-slate-400">Community Portal &bull; Live</span>
-              <a href="https://www.spslnt.org.sg/" target="_blank" rel="noopener noreferrer" aria-label="Visit SPSLNT Member Portal (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+              <a href="https://spslnt.sg/" target="_blank" rel="noopener noreferrer" aria-label="Visit Shri Laxmi Narayan Temple Portal (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
                 <span>Visit Portal</span>
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -733,6 +958,22 @@
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 flex-shrink-0">
                   Live Client
                 </span>
+              </div>
+
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">the1494.com</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Live Client</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/the1494.webp" alt="The 1494 luxury platform live screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
               </div>
 
               <p class="text-sm text-slate-300 leading-relaxed mb-6">
@@ -778,6 +1019,22 @@
                 </span>
               </div>
 
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">sciencehub.experthub.store</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Live Cloudflare</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/sciencehub.webp" alt="ScienceHub interactive science learning platform live screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
               <p class="text-sm text-slate-300 leading-relaxed mb-6">
                 Interactive STEM and language learning portal with 100 curriculum modules and bilingual AI tutoring, hosted on Cloudflare's global network for fast load times worldwide.
               </p>
@@ -813,7 +1070,7 @@
                   </div>
                   <div>
                     <h3 class="text-xl font-bold text-white tracking-tight">HyperFetch</h3>
-                    <p class="text-xs text-cyan-400 font-medium">Native macOS Download Manager</p>
+                    <p class="text-xs text-cyan-400 font-medium">Native Windows &amp; macOS Download Manager</p>
                   </div>
                 </div>
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 flex-shrink-0">
@@ -821,22 +1078,37 @@
                 </span>
               </div>
 
-              <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                A native macOS download manager built with Swift — handles large files, multiple downloads at once, and resumes interrupted transfers cleanly.
-              </p>
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">hyperfetch — active transfer (macOS &amp; Windows)</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Production Ready</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/hyperfetch.webp" alt="HyperFetch native download manager live platform screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">A high-performance native download manager built for macOS and Windows — handles multi-gigabyte files, multi-chunk concurrent streams, bandwidth allocation, and resumes interrupted transfers cleanly.</p>
 
               <div class="flex flex-wrap gap-2 mb-6">
                 <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Swift</span>
                 <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">SwiftUI</span>
                 <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">macOS</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Windows</span>
                 <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Concurrency</span>
               </div>
             </div>
 
             <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
-              <span class="text-xs text-slate-400">macOS App &bull; Open Source</span>
-              <a href="https://github.com/consultanything-tech/hyperfetch-app" target="_blank" rel="noopener noreferrer" aria-label="View HyperFetch repository on GitHub (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
-                <span>View Repository</span>
+              <span class="text-xs text-slate-400">macOS &amp; Windows &bull; Live App</span>
+              <a href="https://consultanything-tech.github.io/hyperfetch-app/" target="_blank" rel="noopener noreferrer" aria-label="Visit HyperFetch Platform (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Visit App</span>
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
@@ -844,7 +1116,125 @@
             </div>
           </article>
 
-          <!-- Card 5: ProofPath -->
+          <!-- Card 5: IndiaCrafted -->
+          <article data-category="web" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-amber-950/90 border border-amber-700/50 flex items-center justify-center text-amber-400 shadow-md shadow-amber-950">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-white tracking-tight">IndiaCrafted</h3>
+                    <p class="text-xs text-amber-400 font-medium">Artisan Marketplace &amp; Storefront</p>
+                  </div>
+                </div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 flex-shrink-0">
+                  Live Platform
+                </span>
+              </div>
+
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">indiacrafted.com</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Live Platform</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/indiacrafted.webp" alt="IndiaCrafted artisan marketplace live storefront screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                An online marketplace for Indian artisan products — fast page loads, easy browsing, and a seamless checkout built on Next.js.
+              </p>
+
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Next.js</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Edge</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">TypeScript</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Tailwind CSS</span>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-xs text-slate-400">E-Commerce &bull; Live Platform</span>
+              <a href="https://IndiaCrafted.com" target="_blank" rel="noopener noreferrer" aria-label="Visit IndiaCrafted Marketplace (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Visit Marketplace</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 6: SpendWise -->
+          <article data-category="web apps" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-emerald-950/90 border border-emerald-700/50 flex items-center justify-center text-emerald-400 shadow-md shadow-emerald-950">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-white tracking-tight">SpendWise</h3>
+                    <p class="text-xs text-emerald-400 font-medium">Financial Planning &amp; Forecasting Engine</p>
+                  </div>
+                </div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 flex-shrink-0">
+                  Live Platform
+                </span>
+              </div>
+
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame mb-5 overflow-hidden group/shot relative rounded-xl border border-zinc-800 bg-zinc-950/80">
+                <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 font-mono text-[10px] text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-slate-300 truncate">spendwise.experthub.store</span>
+                  </div>
+                  <span class="text-emerald-400 font-semibold">Live Platform</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[16/10] bg-zinc-950">
+                  <img src="assets/images/screenshots/spendwise.webp" alt="SpendWise live platform screenshot" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/shot:scale-105">
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                A personal finance app that helps you plan ahead — see where your money is going, model different scenarios, and keep your data private on your own device.
+              </p>
+
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Financial planning</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">TypeScript</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">React</span>
+                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Forecasting Engine</span>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Finance App &bull; Live</span>
+              <a href="https://spendwise.experthub.store/" target="_blank" rel="noopener noreferrer" aria-label="Visit SpendWise Platform at spendwise.experthub.store (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Visit Platform</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 7: ProofPath -->
           <article data-category="ai" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
@@ -862,6 +1252,29 @@
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-950/80 text-teal-400 border border-teal-800/60 flex-shrink-0">
                   Active Beta
                 </span>
+              </div>
+
+              <!-- Visual UI Preview Frame -->
+              <div class="product-preview-frame p-3 mb-5 font-mono text-[11px] text-slate-300">
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-zinc-800/80">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-amber-500/70 inline-block"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span class="ml-1 text-[10px] text-slate-400">proofpath — test sweep</span>
+                  </div>
+                  <span class="text-emerald-400 text-[10px]">4/4 PASS</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[10px]">
+                  <div class="p-1.5 rounded bg-zinc-900/80 border border-zinc-800 flex items-center justify-between">
+                    <span>Viewport Diff</span>
+                    <span class="text-emerald-400 font-bold">0.00%</span>
+                  </div>
+                  <div class="p-1.5 rounded bg-zinc-900/80 border border-zinc-800 flex items-center justify-between">
+                    <span>LLM Gating</span>
+                    <span class="text-violet-400 font-bold">Passed</span>
+                  </div>
+                </div>
               </div>
 
               <p class="text-sm text-slate-300 leading-relaxed mb-6">
@@ -884,100 +1297,6 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
               </a>
-            </div>
-          </article>
-
-          <!-- Card 6: IndiaCrafted -->
-          <article data-category="web" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
-            <div>
-              <div class="flex items-start justify-between gap-4 mb-4">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 rounded-xl bg-amber-950/90 border border-amber-700/50 flex items-center justify-center text-amber-400 shadow-md shadow-amber-950">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-xl font-bold text-white tracking-tight">IndiaCrafted</h3>
-                    <p class="text-xs text-amber-400 font-medium">Artisan Marketplace &amp; Storefront</p>
-                  </div>
-                </div>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 flex-shrink-0">
-                  Live Platform
-                </span>
-              </div>
-
-              <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                An online marketplace for Indian artisan products — fast page loads, easy browsing, and a seamless checkout built on Next.js.
-              </p>
-
-              <div class="flex flex-wrap gap-2 mb-6">
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Next.js</span>
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Edge</span>
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">TypeScript</span>
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Tailwind CSS</span>
-              </div>
-            </div>
-
-            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between">
-              <span class="text-xs text-slate-400">E-Commerce &bull; Open Source</span>
-              <a href="https://github.com/consultanything-tech/indiacrafted-homepage-mockup" target="_blank" rel="noopener noreferrer" aria-label="View IndiaCrafted repository on GitHub (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
-                <span>View Repository</span>
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </a>
-            </div>
-          </article>
-
-          <!-- Card 7: SpendWise -->
-          <article data-category="web apps" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
-            <div>
-              <div class="flex items-start justify-between gap-4 mb-4">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 rounded-xl bg-emerald-950/90 border border-emerald-700/50 flex items-center justify-center text-emerald-400 shadow-md shadow-emerald-950">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-xl font-bold text-white tracking-tight">SpendWise</h3>
-                    <p class="text-xs text-emerald-400 font-medium">Financial Planning &amp; Forecasting Engine</p>
-                  </div>
-                </div>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 flex-shrink-0">
-                  Live Platform
-                </span>
-              </div>
-
-              <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                A personal finance app that helps you plan ahead — see where your money is going, model different scenarios, and keep your data private on your own device.
-              </p>
-
-              <div class="flex flex-wrap gap-2 mb-6">
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Financial planning</span>
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">TypeScript</span>
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">React</span>
-                <span class="tech-tag text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Forecasting Engine</span>
-              </div>
-            </div>
-
-            <div class="pt-6 border-t border-zinc-800/80 flex items-center justify-between gap-3 flex-wrap">
-              <span class="text-xs text-slate-400">Finance App &bull; Live</span>
-              <div class="flex items-center gap-3">
-                <a href="https://github.com/consultanything-tech/spendwise" target="_blank" rel="noopener noreferrer" aria-label="View SpendWise repository on GitHub (opens in new tab)" class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                  </svg>
-                  <span>Code</span>
-                </a>
-                <a href="https://spendwise.experthub.store/" target="_blank" rel="noopener noreferrer" aria-label="Visit SpendWise Platform at spendwise.experthub.store (opens in new tab)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors">
-                  <span>Visit Platform</span>
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </a>
-              </div>
             </div>
           </article>
         </div>
@@ -1161,6 +1480,77 @@
             </div>
           </div>
         </div>
+
+        <!-- Senior Engineering Leadership & Accountability -->
+        <div class="mt-16 pt-16 border-t border-zinc-800/60">
+          <div class="max-w-3xl mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-teal-950/80 text-teal-300 border border-teal-700/50 mb-3">
+              <span>Accountable Delivery</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Who Builds Your Software</h3>
+            <p class="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
+              No account managers or junior delegates. Every project is led and written by hands-on principal engineers who have designed and scaled systems in production.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Profile 1: Principal Systems Architect -->
+            <div class="spotlight-card tilt-card rounded-2xl p-7 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-4 mb-5">
+                  <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500/20 to-teal-800/40 border border-teal-500/40 flex items-center justify-center text-teal-300 font-bold text-lg font-mono shadow-md shadow-teal-950">
+                    PA
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-bold text-white tracking-tight">Principal Systems Architect</h4>
+                    <p class="text-xs text-teal-400 font-medium">Cloud Infrastructure &bull; Distributed Engines &bull; Rust &bull; Go</p>
+                  </div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed mb-5">
+                  12+ years designing distributed backends, zero-downtime database migrations, and edge replication topologies. Specialises in high-throughput network programming, Kubernetes cluster hardening, and low-latency APIs.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-5">
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Distributed Systems</span>
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Rust / Tokio</span>
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Kubernetes</span>
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Cloudflare Edge</span>
+                </div>
+              </div>
+              <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-slate-400">
+                <span>Direct Commit Access</span>
+                <span class="text-emerald-400 font-mono font-medium">Active Senior Lead</span>
+              </div>
+            </div>
+
+            <!-- Profile 2: Lead Product & Mobile Engineer -->
+            <div class="spotlight-card tilt-card rounded-2xl p-7 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-4 mb-5">
+                  <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-cyan-800/40 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-lg font-mono shadow-md shadow-cyan-950">
+                    LP
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-bold text-white tracking-tight">Lead Product &amp; Mobile Engineer</h4>
+                    <p class="text-xs text-cyan-400 font-medium">Next.js &bull; Swift &bull; TypeScript &bull; Local-First Systems</p>
+                  </div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed mb-5">
+                  Full-stack product builder bridging high-polish responsive web experiences and native Apple software. Obsessed with sub-second interaction speed, WCAG accessibility, and client-side reactive state machines.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-5">
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Next.js / React</span>
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">Swift / SwiftUI</span>
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">TypeScript</span>
+                  <span class="tech-tag text-[11px] px-2.5 py-1 rounded bg-zinc-800/90 text-slate-300 border border-zinc-700/60">CRDT Sync</span>
+                </div>
+              </div>
+              <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-slate-400">
+                <span>Direct Commit Access</span>
+                <span class="text-emerald-400 font-mono font-medium">Active Senior Lead</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1178,6 +1568,37 @@
               Got a project in mind, or just want to explore what's possible? Drop us a message and we'll get back to you within 24 hours.
             </p>
 
+            <!-- 3-Step Engagement Process (What Happens Next) -->
+            <div class="mt-8 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 backdrop-blur-md">
+              <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span>
+                <span>What Happens Next &bull; Engagement Process</span>
+              </h3>
+              <ol class="space-y-4 text-xs text-slate-300">
+                <li class="flex items-start gap-3">
+                  <span class="w-5 h-5 rounded-full bg-teal-950 border border-teal-500/50 text-teal-300 font-mono font-bold flex items-center justify-center flex-shrink-0 text-[10px]">1</span>
+                  <div>
+                    <strong class="text-white font-semibold">30-Min Architecture Discovery</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">Talk directly with a principal engineer. We evaluate technical scope, bottlenecks, and feasibility with zero sales push.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-5 h-5 rounded-full bg-teal-950 border border-teal-500/50 text-teal-300 font-mono font-bold flex items-center justify-center flex-shrink-0 text-[10px]">2</span>
+                  <div>
+                    <strong class="text-white font-semibold">Clear Scope &amp; Proposal in 48h</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">You get a fixed-milestone roadmap, transparent cost structure, and tech recommendations in writing.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-5 h-5 rounded-full bg-teal-950 border border-teal-500/50 text-teal-300 font-mono font-bold flex items-center justify-center flex-shrink-0 text-[10px]">3</span>
+                  <div>
+                    <strong class="text-white font-semibold">Sprint 1 Delivery in Days</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">Direct private communication channel, daily commits, and test-verified code shipped from day one.</p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
             <div class="mt-8 space-y-6">
               <!-- Direct Email -->
               <div class="flex items-start gap-4">
@@ -1188,8 +1609,8 @@
                 </div>
                 <div>
                   <h3 class="text-sm font-semibold text-white">Direct Email</h3>
-                  <a href="mailto:hello@catech.dev" class="text-sm text-teal-400 hover:text-teal-300 transition-colors font-mono">
-                    hello@catech.dev
+                  <a href="mailto:consultanythingtech@gmail.com" class="text-sm text-teal-400 hover:text-teal-300 transition-colors font-mono">
+                    consultanythingtech@gmail.com
                   </a>
                 </div>
               </div>
@@ -1431,7 +1852,7 @@
               </a>
             </li>
             <li>
-              <a href="mailto:hello@catech.dev" class="hover:text-white transition-colors">hello@catech.dev</a>
+              <a href="mailto:consultanythingtech@gmail.com" class="hover:text-white transition-colors font-mono text-xs">consultanythingtech@gmail.com</a>
             </li>
           </ul>
         </div>

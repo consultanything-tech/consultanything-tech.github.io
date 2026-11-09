@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.success) {
           contactForm.reset();
           if (formStatus) {
-            formStatus.innerHTML = "Message sent — we'll get back to you within 24 hours. You can also reach us directly at <a href='mailto:hello@catech.dev' class='underline hover:text-white font-mono'>hello@catech.dev</a>.";
+            formStatus.innerHTML = "Message sent — we'll get back to you within 24 hours. You can also reach us directly at <a href='mailto:consultanythingtech@gmail.com' class='underline hover:text-white font-mono'>consultanythingtech@gmail.com</a>.";
             formStatus.className = "mb-6 p-4 rounded-xl text-sm font-medium bg-emerald-950/80 border border-emerald-800 text-emerald-300 block";
             formStatus.focus();
           }
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (err) {
         if (formStatus) {
-          formStatus.innerHTML = "Something went wrong. Please email us directly at <a href='mailto:hello@catech.dev' class='underline hover:text-white font-mono'>hello@catech.dev</a>.";
+          formStatus.innerHTML = "Something went wrong. Please email us directly at <a href='mailto:consultanythingtech@gmail.com' class='underline hover:text-white font-mono'>consultanythingtech@gmail.com</a>.";
           formStatus.className = "mb-6 p-4 rounded-xl text-sm font-medium bg-rose-950/80 border border-rose-800 text-rose-300 block";
           formStatus.focus();
         }

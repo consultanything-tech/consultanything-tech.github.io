@@ -115,14 +115,15 @@ class TestSiteStructure(unittest.TestCase):
                 is_org_or_service = type_val in ["Organization", "ProfessionalService"]
                 has_name = any(n in name_val for n in ["ConsultAnythingTech", "CATech"])
                 has_url = any(u in url_val for u in ["consultanything-tech.github.io", "catech.dev"])
+                has_email = data.get("email") == "consultanythingtech@gmail.com"
 
-                if is_org_or_service and has_name and has_url:
+                if is_org_or_service and has_name and has_url and has_email:
                     break
             except json.JSONDecodeError as err:
                 self.fail(f"Invalid JSON in application/ld+json: {err}")
         else:
             self.fail(
-                "JSON-LD must specify @type as Organization or ProfessionalService with name 'CATech' or 'ConsultAnythingTech' and URL 'https://catech.dev' or 'https://consultanything-tech.github.io'"
+                "JSON-LD must specify @type as Organization or ProfessionalService with name 'CATech' or 'ConsultAnythingTech', URL 'https://catech.dev' or 'https://consultanything-tech.github.io', and email 'consultanythingtech@gmail.com'"
             )
 
     def test_05_navigation_and_accessibility(self):
@@ -396,7 +397,7 @@ class TestSiteStructure(unittest.TestCase):
             "#products cards must include data-category attributes for filtering",
         )
 
-        # Links to repositories with descriptive accessible names
+        # Links to live platforms or repositories with descriptive accessible names
         for proj_name in projects.keys():
             self.assertRegex(
                 products_content,
@@ -405,9 +406,16 @@ class TestSiteStructure(unittest.TestCase):
             )
             self.assertRegex(
                 products_content,
-                rf'(?s){proj_name}.*?<a\s+[^>]*aria-label=["\']View {proj_name} repository on GitHub \(opens in new tab\)["\']',
+                rf'(?s){proj_name}.*?<a\s+[^>]*aria-label=["\'][^"\']*{proj_name}[^"\']*\(opens in new tab\)["\']',
                 f"#products card for '{proj_name}' must have descriptive aria-label including project name and '(opens in new tab)'",
             )
+
+        # ProofPath retains GitHub repo link since it has no separate live URL
+        self.assertRegex(
+            products_content,
+            r'aria-label=["\']View ProofPath repository on GitHub \(opens in new tab\)["\']',
+            "#products card for ProofPath must link to GitHub repository with accessible label",
+        )
 
         # Verify JS implements roving tabindex and 250ms duration matching design tokens
         js_content = self.js_path.read_text(encoding="utf-8")
@@ -549,18 +557,15 @@ class TestSiteStructure(unittest.TestCase):
         )
 
         # Direct mailto, phone, WhatsApp, and GitHub links
-        has_email = any(
-            email in contact_content
-            for email in ["hello@catech.dev", "consultanythingtech@gmail.com"]
-        )
-        self.assertTrue(
-            has_email,
-            "Contact section must display email hello@catech.dev or consultanythingtech@gmail.com",
+        self.assertIn(
+            "consultanythingtech@gmail.com",
+            contact_content,
+            "Contact section must display email consultanythingtech@gmail.com",
         )
         self.assertRegex(
             contact_content,
-            r'href=["\']mailto:(?:hello@catech\.dev|consultanythingtech@gmail\.com)["\']',
-            "Contact section must provide direct mailto link",
+            r'href=["\']mailto:consultanythingtech@gmail\.com["\']',
+            "Contact section must provide direct mailto link to consultanythingtech@gmail.com",
         )
         self.assertIn(
             "+65 88240325",
@@ -778,12 +783,12 @@ class TestSiteStructure(unittest.TestCase):
 
         # Required public platforms & repositories
         portfolio_items = {
-            "SPSLNT": "https://www.spslnt.org.sg/",
+            "SPSLNT": "https://spslnt.sg/",
             "The 1494": "https://the1494.com/",
             "ScienceHub": "https://sciencehub.experthub.store/",
-            "HyperFetch": "https://github.com/consultanything-tech/hyperfetch-app",
+            "HyperFetch": "https://consultanything-tech.github.io/hyperfetch-app/",
             "ProofPath": "https://github.com/consultanything-tech/ProofPath",
-            "IndiaCrafted": "https://github.com/consultanything-tech/indiacrafted-homepage-mockup",
+            "IndiaCrafted": "https://IndiaCrafted.com",
             "SpendWise": "https://spendwise.experthub.store/",
         }
 
@@ -799,11 +804,25 @@ class TestSiteStructure(unittest.TestCase):
                 f"index.html must link project '{name}' to public URL '{expected_url}'",
             )
 
-        # Retain SpendWise GitHub repo link
+        # Verify Shri Laxmi Narayan Temple details in SPSLNT
         self.assertIn(
-            "https://github.com/consultanything-tech/spendwise",
+            "Shri Laxmi Narayan Temple",
             index_content,
-            "index.html must retain SpendWise repository link",
+            "index.html must describe SPSLNT as Shri Laxmi Narayan Temple",
+        )
+
+        # Verify Windows support in HyperFetch
+        self.assertRegex(
+            index_content,
+            r'(?i)HyperFetch.*?Windows',
+            "index.html HyperFetch showcase must indicate Windows support",
+        )
+
+        # Retain ProofPath GitHub repo link (no separate live URL)
+        self.assertIn(
+            "https://github.com/consultanything-tech/ProofPath",
+            index_content,
+            "index.html must retain ProofPath repository link",
         )
 
     def test_21_hero_canvas_constellation(self):
@@ -1066,6 +1085,186 @@ class TestSiteStructure(unittest.TestCase):
             "removeProperty",
             pointerleave_match.group(1),
             "main.js pointerleave should not remove --mouse-x/y immediately to allow smooth CSS exit fade",
+        )
+
+    def test_25_favicon_and_icons(self):
+        """Verify favicon and brand icon links in index.html head."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        self.assertRegex(
+            index_content,
+            r'<link[^>]*rel=["\'](?:icon|shortcut icon)["\'][^>]*href=["\']assets/logos/(?:logo-mark|logo|option-4-infinity-code)\.svg["\']',
+            "index.html must link SVG favicon in <head>",
+        )
+        self.assertRegex(
+            index_content,
+            r'<link[^>]*rel=["\']apple-touch-icon["\']',
+            "index.html must link apple-touch-icon",
+        )
+
+    def test_26_hero_headline_and_console_bridge(self):
+        """Verify outcome-driven hero headline and console explanatory context bridge."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        # Outcome-oriented headline
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Your\s+(?:Product|Software|Platform),\s+Shipped|Senior\s+Engineering\s+for\s+High-Growth)',
+            "Hero headline must emphasize client delivery outcomes (e.g. 'Your Product, Shipped')",
+        )
+        # Context bridge explaining the console's purpose
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Interactive\s+System\s+Monitor|Click\s+tabs\s+to\s+test)',
+            "Hero must feature an explanatory caption/context bridge for the interactive runtime console",
+        )
+
+    def test_27_client_outcomes_and_proof_section(self):
+        """Verify client outcomes and social proof section with metrics and case study highlights."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        self.assertRegex(
+            index_content,
+            r'id=["\'](?:proof|outcomes|results)["\']',
+            "index.html must include a client outcomes/proof section with id='proof', 'outcomes', or 'results'",
+        )
+        # Outcome metrics & quotes
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Measured\s+Impact|Proven\s+Outcomes|Client\s+Results|Platform\s+Outcomes)',
+            "Proof section must showcase measured client impact or proven outcomes",
+        )
+        # Verified delivery stories for real platforms (SPSLNT, The 1494, SpendWise)
+        for platform in ["SPSLNT", "The 1494"]:
+            self.assertIn(
+                platform,
+                index_content,
+                f"Proof section or portfolio must highlight real deployment story for {platform}",
+            )
+
+    def test_28_visual_product_previews(self):
+        """Verify visual mockup frames or browser/window chrome previews on product cards."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+        # Visual window/mockup preview chrome inside product cards
+        self.assertRegex(
+            index_content,
+            r'class=["\'][^"\']*(?:product-preview-frame|mockup-window)[^"\']*["\']',
+            "Product cards must feature visual interface preview frames (.product-preview-frame)",
+        )
+        # CSS styling exists for product-preview-frame
+        self.assertIn(
+            ".product-preview-frame",
+            css_content,
+            "styles.css must define styles for .product-preview-frame",
+        )
+        # Prominent direct demo/code action triggers
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Live\s+Platform|Visit\s+Platform|View\s+Repository)',
+            "Products must offer clear visual action triggers for platforms",
+        )
+
+    def test_29_team_leadership_presence(self):
+        """Verify human leadership profiles and senior engineer accountability in About section."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        # Section or block introducing senior engineering team
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Engineering\s+Leadership|Senior\s+Team|Who\s+Builds\s+Your\s+Software|Principal\s+Engineers)',
+            "About section must introduce senior engineering leadership/team",
+        )
+        # Concrete role designations
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:Principal\s+Systems\s+Architect|Lead\s+Product\s+(?:&|and)\s+Mobile\s+Engineer)',
+            "Team profiles must detail technical roles and engineering specializations",
+        )
+
+    def test_30_engagement_process_steps(self):
+        """Verify 3-step engagement process roadmap reducing contact friction."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        self.assertRegex(
+            index_content,
+            r'(?i)(?:How\s+We\s+Engage|What\s+Happens\s+Next|Engagement\s+Process|How\s+It\s+Works)',
+            "Contact section must include a transparent 'What Happens Next' or engagement roadmap",
+        )
+        # Step breakdown
+        for step in ["Discovery", "Proposal", "(?:Delivery|Sprint|Kickoff)"]:
+            self.assertRegex(
+                index_content,
+                rf'(?i){step}',
+                f"Engagement roadmap must define phase matching '{step}'",
+            )
+
+    def test_31_project_live_screenshots(self):
+        """Verify screenshots exist on disk and are linked in project cards."""
+        screenshots_dir = REPO_ROOT / "assets" / "images" / "screenshots"
+        self.assertTrue(screenshots_dir.exists(), "assets/images/screenshots directory must exist")
+        
+        expected_screenshots = [
+            "spslnt.webp",
+            "the1494.webp",
+            "hyperfetch.webp",
+            "indiacrafted.webp",
+            "spendwise.webp",
+            "sciencehub.webp",
+        ]
+        for filename in expected_screenshots:
+            shot_path = screenshots_dir / filename
+            self.assertTrue(shot_path.exists(), f"Screenshot {filename} must exist on disk")
+            self.assertGreater(shot_path.stat().st_size, 1000, f"Screenshot {filename} must not be empty")
+
+        index_content = self.index_path.read_text(encoding="utf-8")
+        for filename in expected_screenshots:
+            self.assertIn(
+                f"assets/images/screenshots/{filename}",
+                index_content,
+                f"index.html must reference screenshot 'assets/images/screenshots/{filename}'",
+            )
+
+    def test_32_photo_based_listings_sorted_first(self):
+        """Verify that photo-based product listings appear before non-photo listings in products grid."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        products_grid_match = re.search(
+            r'<div[^>]*id=["\']products-grid["\'][^>]*>(.*?)</div>\s*</div>\s*</section>',
+            index_content,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(products_grid_match, "Could not extract products grid")
+        grid_html = products_grid_match.group(1)
+
+        articles = re.findall(r'<article[^>]*>.*?</article>', grid_html, re.DOTALL)
+        self.assertGreaterEqual(len(articles), 7, "Expected at least 7 product cards")
+
+        seen_non_photo = False
+        for i, article in enumerate(articles):
+            has_photo = bool(re.search(r'<img[^>]*src=["\']assets/images/screenshots/', article))
+            if has_photo:
+                self.assertFalse(
+                    seen_non_photo,
+                    f"Product card at index {i} has a photo but appears after a non-photo product card",
+                )
+            else:
+                seen_non_photo = True
+
+    def test_33_standard_header_dimensions_and_tokens(self):
+        """Verify standard header dimensions (h-20 = 80px) and matching CSS tokens."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+
+        # Header container uses standard h-20 class
+        header_match = re.search(r'<header[^>]*id=["\']main-header["\'][^>]*>(.*?)</header>', index_content, re.DOTALL)
+        self.assertIsNotNone(header_match, "<header id='main-header'> must exist")
+        self.assertIn("h-20", header_match.group(1), "Header inner container must use standard h-20 (80px / 5rem) height")
+
+        # CSS tokens configure 5rem header height
+        self.assertRegex(
+            css_content,
+            r'--header-height:\s*5rem;',
+            "styles.css must define --header-height: 5rem;",
+        )
+        self.assertRegex(
+            css_content,
+            r'\.glass-header\s*\{[^}]*min-height:\s*5rem;',
+            "styles.css must configure min-height: 5rem on .glass-header",
         )
 
 
