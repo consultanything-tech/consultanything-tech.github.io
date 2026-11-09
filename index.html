@@ -208,7 +208,7 @@
           <!-- Tab Panels Container -->
           <div class="p-4 sm:p-5 text-xs text-slate-300 min-h-[320px] flex flex-col justify-between">
             <!-- Panel 1: Local-First Architecture Visualizer -->
-            <div id="panel-console-localfirst" role="tabpanel" aria-labelledby="tab-console-localfirst" class="console-panel space-y-4">
+            <div id="panel-console-localfirst" role="tabpanel" tabindex="0" aria-labelledby="tab-console-localfirst" class="console-panel space-y-4">
               <!-- Node Topology Visualization -->
               <div class="grid grid-cols-2 gap-3 items-center">
                 <!-- Local Node -->
@@ -260,11 +260,11 @@
             </div>
 
             <!-- Panel 2: AI Agent Execution Trace Visualizer -->
-            <div id="panel-console-agent" role="tabpanel" aria-labelledby="tab-console-agent" class="console-panel hidden space-y-4">
+            <div id="panel-console-agent" role="tabpanel" tabindex="0" aria-labelledby="tab-console-agent" class="console-panel hidden space-y-4">
               <div class="space-y-2">
                 <div class="flex items-center justify-between text-[11px] text-slate-400 pb-1 border-b border-zinc-800/80">
                   <span>Subagent Workflow Execution Pipeline</span>
-                  <span id="agent-exec-status" class="text-emerald-400 font-bold">Ready</span>
+                  <span id="agent-exec-status" role="status" aria-live="polite" class="text-emerald-400 font-bold">Ready</span>
                 </div>
 
                 <!-- Trace Step Sequence -->
@@ -319,7 +319,7 @@
             </div>
 
             <!-- Panel 3: High-Performance Native Benchmark Monitor -->
-            <div id="panel-console-native" role="tabpanel" aria-labelledby="tab-console-native" class="console-panel hidden space-y-4">
+            <div id="panel-console-native" role="tabpanel" tabindex="0" aria-labelledby="tab-console-native" class="console-panel hidden space-y-4">
               <!-- Metrics Grid -->
               <div class="grid grid-cols-2 gap-3">
                 <div class="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800">
@@ -409,7 +409,7 @@
         <!-- 4 Core Service Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <!-- Card 1: Distributed Cloud & Systems Architecture -->
-          <div class="service-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <div class="service-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-center gap-4 mb-5">
                 <div class="w-12 h-12 rounded-xl bg-teal-950/90 border border-teal-700/50 flex items-center justify-center text-teal-400 shadow-md shadow-teal-950">
@@ -465,7 +465,7 @@
           </div>
 
           <!-- Card 2: High-Performance Native & Web Engineering -->
-          <div class="service-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <div class="service-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-center gap-4 mb-5">
                 <div class="w-12 h-12 rounded-xl bg-cyan-950/90 border border-cyan-700/50 flex items-center justify-center text-cyan-400 shadow-md shadow-cyan-950">
@@ -521,7 +521,7 @@
           </div>
 
           <!-- Card 3: AI Systems & Agentic Workflows -->
-          <div class="service-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <div class="service-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-center gap-4 mb-5">
                 <div class="w-12 h-12 rounded-xl bg-violet-950/90 border border-violet-700/50 flex items-center justify-center text-violet-400 shadow-md shadow-violet-950">
@@ -577,7 +577,7 @@
           </div>
 
           <!-- Card 4: Security Hardening & Performance Optimization -->
-          <div class="service-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <div class="service-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-center gap-4 mb-5">
                 <div class="w-12 h-12 rounded-xl bg-amber-950/90 border border-amber-700/50 flex items-center justify-center text-amber-400 shadow-md shadow-amber-950">
@@ -672,7 +672,7 @@
         <!-- Products Grid -->
         <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8" role="region" aria-labelledby="products-heading" aria-live="polite">
           <!-- Card 1: SPSLNT Website & Member Portal -->
-          <article data-category="web apps" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="web apps" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">
@@ -715,7 +715,7 @@
           </article>
 
           <!-- Card 2: The 1494 Website -->
-          <article data-category="web" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="web" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">
@@ -758,7 +758,7 @@
           </article>
 
           <!-- Card 3: ScienceHub -->
-          <article data-category="ai web apps" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="ai web apps" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">
@@ -801,7 +801,7 @@
           </article>
 
           <!-- Card 4: HyperFetch -->
-          <article data-category="apps" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="apps" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">
@@ -844,7 +844,7 @@
           </article>
 
           <!-- Card 5: ProofPath -->
-          <article data-category="ai" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="ai" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">
@@ -887,7 +887,7 @@
           </article>
 
           <!-- Card 6: IndiaCrafted -->
-          <article data-category="web" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="web" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">
@@ -930,7 +930,7 @@
           </article>
 
           <!-- Card 7: SpendWise -->
-          <article data-category="web apps" class="product-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
+          <article data-category="web apps" class="product-card spotlight-card tilt-card rounded-2xl p-8 bg-zinc-900/60 border border-zinc-800 backdrop-blur-md flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3">

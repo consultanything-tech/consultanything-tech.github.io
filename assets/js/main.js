@@ -716,8 +716,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Local-First Mutation Simulation
     let mutationCounter = 0;
+    let isSimulatingMutation = false;
     if (btnSimulateMutation) {
       btnSimulateMutation.addEventListener("click", () => {
+        if (isSimulatingMutation) return;
+        isSimulatingMutation = true;
+        btnSimulateMutation.disabled = true;
+        btnSimulateMutation.classList.add("opacity-75");
+
         mutationCounter++;
         const now = new Date();
         const timeStr = now.toTimeString().split(" ")[0] + "." + String(now.getMilliseconds()).padStart(3, "0");
@@ -739,12 +745,15 @@ document.addEventListener("DOMContentLoaded", () => {
           edgeSyncState.className = "text-amber-400 font-bold";
         }
 
-        // Add log entry
+        // Add log entry and cap to 15 entries
         if (localSyncLog) {
           const logEntry = document.createElement("div");
           logEntry.className = "text-teal-300 font-mono";
           logEntry.innerHTML = `[${timeStr}] <span class="text-white font-bold">MUTATION #${mutationCounter}:</span> Local write committed (0ms) &rarr; broadcasting delta (${docId})`;
           localSyncLog.appendChild(logEntry);
+          while (localSyncLog.children.length > 15) {
+            localSyncLog.removeChild(localSyncLog.firstElementChild);
+          }
           localSyncLog.scrollTop = localSyncLog.scrollHeight;
         }
 
@@ -768,8 +777,14 @@ document.addEventListener("DOMContentLoaded", () => {
             confirmEntry.className = "text-emerald-400 font-mono";
             confirmEntry.innerHTML = `&gt; Cloudflare D1 confirmed state vector match (vector_clock: ${mutationCounter + 124})`;
             localSyncLog.appendChild(confirmEntry);
+            while (localSyncLog.children.length > 15) {
+              localSyncLog.removeChild(localSyncLog.firstElementChild);
+            }
             localSyncLog.scrollTop = localSyncLog.scrollHeight;
           }
+          btnSimulateMutation.disabled = false;
+          btnSimulateMutation.classList.remove("opacity-75");
+          isSimulatingMutation = false;
         }, 400);
       });
     }
@@ -817,6 +832,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Initialize Hero Console
+  // 3D Card Hover Tilt and Pointer Spotlight Shaders
+  function initSpotlightAndTilt() {
+    const cards = document.querySelectorAll(".spotlight-card");
+    if (!cards.length) return;
+
+    const prefersReducedMotion = () =>
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    cards.forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        if (e.pointerType === "touch" || prefersReducedMotion()) return;
+
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5.0;
+        const rotateY = ((x - centerX) / centerX) * 5.0;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`;
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.style.transform = "";
+        card.style.removeProperty("--mouse-x");
+        card.style.removeProperty("--mouse-y");
+      });
+    });
+  }
+
+  // Initialize Hero Console and 3D Spotlight Tilt
   initHeroConsole();
+  initSpotlightAndTilt();
 });

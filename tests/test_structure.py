@@ -923,6 +923,79 @@ class TestSiteStructure(unittest.TestCase):
         # 7. CSS console styling
         self.assertIn("#hero-console", css_content, "styles.css must contain styles for #hero-console")
 
+    def test_23_card_tilt_and_spotlight(self):
+        """Verify 3D card tilt, pointer spotlight shader effect, and console a11y polish."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        js_content = self.js_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+
+        # 1. Cards in #services and #products have .spotlight-card or .tilt-card class
+        services_section = re.search(r'<section[^>]*id=["\']services["\'].*?</section>', index_content, re.DOTALL)
+        self.assertIsNotNone(services_section, "Services section must exist")
+        self.assertIn("spotlight-card", services_section.group(0), "Services cards must have spotlight-card class")
+        self.assertIn("tilt-card", services_section.group(0), "Services cards must have tilt-card class")
+
+        products_section = re.search(r'<section[^>]*id=["\']products["\'].*?</section>', index_content, re.DOTALL)
+        self.assertIsNotNone(products_section, "Products section must exist")
+        self.assertIn("spotlight-card", products_section.group(0), "Products cards must have spotlight-card class")
+        self.assertIn("tilt-card", products_section.group(0), "Products cards must have tilt-card class")
+
+        # 2. CSS perspective, spotlight pseudo-element and reduced-motion reset
+        self.assertIn("perspective: 1000px", css_content, "styles.css must configure perspective: 1000px")
+        self.assertRegex(
+            css_content,
+            r"\.spotlight-card[^{]*\{",
+            "styles.css must define .spotlight-card styles",
+        )
+        self.assertRegex(
+            css_content,
+            r"--mouse-x.*--mouse-y|radial-gradient.*--mouse-x",
+            "styles.css must use --mouse-x and --mouse-y for spotlight radial gradient overlay",
+        )
+        self.assertRegex(
+            css_content,
+            r"(?s)@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[^{]*\{.*?(?:transform:\s*none|\.spotlight-card|\.tilt-card)",
+            "styles.css must reset transform and disable tilt under prefers-reduced-motion",
+        )
+
+        # 3. JS pointer tracking, 3D tilt and guards
+        self.assertRegex(
+            js_content,
+            r"(?s)--mouse-x.*--mouse-y",
+            "main.js must set --mouse-x and --mouse-y CSS variables on pointer move",
+        )
+        self.assertRegex(
+            js_content,
+            r"(?s)(?:rotateX.*rotateY|rotateY.*rotateX)",
+            "main.js must compute 3D tilt angles (rotateX, rotateY)",
+        )
+        self.assertIn(
+            "pointerleave",
+            js_content,
+            "main.js must reset card transform on pointerleave",
+        )
+        self.assertRegex(
+            js_content,
+            r"pointerType\s*===\s*['\"]touch['\"]",
+            "main.js must ignore touch pointer events for tilt",
+        )
+        self.assertIn(
+            "prefers-reduced-motion",
+            js_content,
+            "main.js must check prefers-reduced-motion before applying tilt",
+        )
+
+        # 4. Task 2 polish items
+        self.assertRegex(
+            index_content,
+            r'id=["\']panel-console-native["\'][^>]*tabindex=["\']0["\']|tabindex=["\']0["\'][^>]*id=["\']panel-console-native["\']',
+            "#panel-console-native must have tabindex='0'",
+        )
+        self.assertRegex(
+            index_content,
+            r'id=["\']agent-exec-status["\'][^>]*(?:role=["\']status["\']|aria-live=["\']polite["\'])|role=["\']status["\'][^>]*id=["\']agent-exec-status["\']',
+            "#agent-exec-status must have role='status' or aria-live='polite'",
+        )
 
 
 if __name__ == "__main__":

@@ -21,6 +21,7 @@
 
   --ease-standard:    cubic-bezier(0.2, 0, 0, 1);
   --ease-decelerate:  cubic-bezier(0, 0, 0.2, 1);
+  --ease-out:         cubic-bezier(0, 0, 0.2, 1);
   --ease-accelerate:  cubic-bezier(0.4, 0, 1, 1);
 
   --distance-sm: 4px;
@@ -37,6 +38,12 @@
     animation-iteration-count: 1     !important;
     transition-duration:      0.01ms !important;
     scroll-behavior:          auto   !important;
+  }
+
+  .spotlight-card,
+  .tilt-card {
+    transform: none !important;
+    transition: none !important;
   }
 }
 
@@ -160,6 +167,47 @@ body {
   transform:    translateY(-4px);
   border-color: rgba(20, 184, 166, 0.4);
   box-shadow:   0 20px 40px -15px rgba(20, 184, 166, 0.15);
+}
+
+/* 3D Tilt and Spotlight Shaders */
+.tilt-container,
+.tilt-card-wrapper {
+  perspective: 1000px;
+}
+
+.spotlight-card,
+.tilt-card {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast);
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    500px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    rgba(20, 184, 166, 0.15),
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity var(--duration-normal) var(--ease-standard);
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+.spotlight-card > * {
+  position: relative;
+  z-index: 2;
 }
 
 /* Product Cards */
