@@ -997,6 +997,77 @@ class TestSiteStructure(unittest.TestCase):
             "#agent-exec-status must have role='status' or aria-live='polite'",
         )
 
+    def test_24_scroll_reveals_and_counter(self):
+        """Verify scroll-triggered reveal animations, number counter animations, and spotlight polish."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        js_content = self.js_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+
+        # 1. Major sections (#services, #products, #capabilities, #about, #contact) contain .reveal-on-scroll
+        for sec_id in ["services", "products", "capabilities", "about", "contact"]:
+            sec_match = re.search(rf'<section[^>]*id=["\']{sec_id}["\'][^>]*>', index_content)
+            self.assertIsNotNone(sec_match, f"Section #{sec_id} must exist")
+            self.assertIn(
+                "reveal-on-scroll",
+                sec_match.group(0),
+                f"Section #{sec_id} must include 'reveal-on-scroll' class",
+            )
+
+        # 2. Metrics in the hero contain data-counter-target attributes and numeric counter spans
+        self.assertRegex(
+            index_content,
+            r'data-counter-target=["\']7["\']',
+            "Hero metrics must contain data-counter-target='7' for shipped products count",
+        )
+        self.assertRegex(
+            index_content,
+            r'data-counter-target=["\']24["\']',
+            "Hero metrics must contain data-counter-target='24' for response time",
+        )
+
+        # 3. #capabilities cards contain .spotlight-card and .tilt-card
+        cap_match = re.search(r'<section[^>]*id=["\']capabilities["\'].*?</section>', index_content, re.DOTALL)
+        self.assertIsNotNone(cap_match, "#capabilities section must exist")
+        self.assertIn("spotlight-card", cap_match.group(0), "#capabilities cards must have spotlight-card class")
+        self.assertIn("tilt-card", cap_match.group(0), "#capabilities cards must have tilt-card class")
+
+        # 4. styles.css scroll reveals and reduced-motion overrides
+        self.assertRegex(
+            css_content,
+            r'\.reveal-on-scroll\s*\{[^}]*opacity:\s*0;[^}]*transform:\s*translateY\(24px\)',
+            "styles.css must define .reveal-on-scroll with opacity: 0 and translateY(24px)",
+        )
+        self.assertRegex(
+            css_content,
+            r'\.reveal-on-scroll\.is-revealed\s*\{[^}]*opacity:\s*1;[^}]*transform:\s*translateY\(0\)',
+            "styles.css must define .reveal-on-scroll.is-revealed with opacity: 1 and translateY(0)",
+        )
+        self.assertIn(".reveal-stagger", css_content, "styles.css must define .reveal-stagger helper")
+        self.assertRegex(
+            css_content,
+            r'(?s)@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[^{]*\{.*?\.reveal-on-scroll[^{]*\{[^}]*opacity:\s*1\s*!important;[^}]*transform:\s*none\s*!important;',
+            "styles.css must enforce opacity: 1 !important and transform: none !important for .reveal-on-scroll under prefers-reduced-motion",
+        )
+
+        # 5. main.js functions and spotlight pointerleave polish
+        self.assertIn("initScrollReveals", js_content, "main.js must define and call initScrollReveals()")
+        self.assertIn("initCounterAnimations", js_content, "main.js must define and call initCounterAnimations()")
+        self.assertIn("is-revealed", js_content, "main.js initScrollReveals must add 'is-revealed' class")
+        self.assertIn("data-counter-target", js_content, "main.js initCounterAnimations must query [data-counter-target]")
+        self.assertRegex(
+            js_content,
+            r'translateY\(-4px\)',
+            "main.js initSpotlightAndTilt must include translateY(-4px) in tilt transform",
+        )
+        # Verify pointerleave does NOT remove mouse properties immediately
+        pointerleave_match = re.search(r'addEventListener\(["\']pointerleave["\'],\s*\(\)\s*=>\s*\{(.*?)\}\)', js_content, re.DOTALL)
+        self.assertIsNotNone(pointerleave_match, "main.js must have pointerleave listener on cards")
+        self.assertNotIn(
+            "removeProperty",
+            pointerleave_match.group(1),
+            "main.js pointerleave should not remove --mouse-x/y immediately to allow smooth CSS exit fade",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

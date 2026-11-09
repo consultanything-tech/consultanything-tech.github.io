@@ -856,18 +856,107 @@ document.addEventListener("DOMContentLoaded", () => {
         const rotateX = ((y - centerY) / centerY) * -5.0;
         const rotateY = ((x - centerX) / centerX) * 5.0;
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`;
+        card.style.transform = `perspective(1000px) translateY(-4px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`;
       });
 
       card.addEventListener("pointerleave", () => {
         card.style.transform = "";
-        card.style.removeProperty("--mouse-x");
-        card.style.removeProperty("--mouse-y");
       });
     });
   }
 
-  // Initialize Hero Console and 3D Spotlight Tilt
+  // Scroll-Triggered Reveal Animations
+  function initScrollReveals() {
+    const reveals = document.querySelectorAll(".reveal-on-scroll");
+    if (!reveals.length) return;
+
+    const prefersReducedMotion = () =>
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+      reveals.forEach((el) => el.classList.add("is-revealed"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    reveals.forEach((el) => observer.observe(el));
+  }
+
+  // Smooth Numeric Count-Up Animation
+  function initCounterAnimations() {
+    const counters = document.querySelectorAll("[data-counter-target]");
+    if (!counters.length) return;
+
+    const prefersReducedMotion = () =>
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function animateCounter(counter) {
+      const target = parseInt(counter.getAttribute("data-counter-target"), 10);
+      if (isNaN(target)) return;
+
+      if (prefersReducedMotion()) {
+        counter.textContent = String(target);
+        return;
+      }
+
+      const duration = 1000;
+      const startTime = performance.now();
+
+      function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - (1 - progress) * (1 - progress);
+        const currentVal = Math.round(ease * target);
+        counter.textContent = String(currentVal);
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter.textContent = String(target);
+        }
+      }
+
+      counter.textContent = "0";
+      requestAnimationFrame(updateCounter);
+    }
+
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+      counters.forEach((counter) => {
+        const target = counter.getAttribute("data-counter-target");
+        if (target) counter.textContent = target;
+      });
+      return;
+    }
+
+    const counterObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    counters.forEach((counter) => counterObserver.observe(counter));
+  }
+
+  // Initialize Hero Console, 3D Spotlight Tilt, Reveals, and Counters
   initHeroConsole();
   initSpotlightAndTilt();
+  initScrollReveals();
+  initCounterAnimations();
 });
