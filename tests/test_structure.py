@@ -716,7 +716,7 @@ class TestSiteStructure(unittest.TestCase):
         )
 
     def test_18_brand_logos_and_concepts(self):
-        """Verify presence of 4 distinct logo SVG options, primary logos, and interactive preview modal."""
+        """Verify presence of 4 distinct logo SVG options, primary logos, and active branding emblem."""
         logo_dir = REPO_ROOT / "assets" / "logos"
         self.assertTrue(logo_dir.exists(), "assets/logos directory must exist")
 
@@ -745,32 +745,12 @@ class TestSiteStructure(unittest.TestCase):
             "index.html must embed or link assets/logos/logo-mark.svg or logo.svg",
         )
 
-        # Verify interactive logo concepts modal / preview element exists
-        self.assertRegex(
-            index_content,
-            r'id=["\']logo-modal["\']|id=["\']logo-drawer["\']|id=["\']logo-concepts["\']',
-            "index.html must contain an interactive modal or drawer for exploring logo concepts",
-        )
-        for opt in ["option-1-hex-prism", "option-2-interlocking-monogram", "option-3-circuit-delta", "option-4-infinity-code"]:
-            self.assertIn(
-                opt,
-                index_content,
-                f"Logo concepts modal in index.html must reference {opt}",
-            )
-
         # Verify logo-mark.svg reflects Option 4 Möbius Infinity Code emblem
         logo_mark_content = (logo_dir / "logo-mark.svg").read_text(encoding="utf-8")
         self.assertRegex(
             logo_mark_content,
             r'(?i)(?:inf-grad|Möbius|infinity|stroke-width=["\']10["\'])',
             "assets/logos/logo-mark.svg must reflect Option 4 Möbius Infinity Code emblem",
-        )
-
-        # Verify Option 4 is marked as Active Official Logo in the modal
-        self.assertIn(
-            "Active Official Logo",
-            index_content,
-            "index.html #logo-modal must display 'Active Official Logo' badge on Option 4",
         )
 
     def test_19_floating_whatsapp_initiator(self):

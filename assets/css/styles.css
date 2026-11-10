@@ -322,34 +322,6 @@ textarea:focus-visible {
 #floating-whatsapp:hover  { transform: translateY(-2px) scale(1.03); box-shadow: 0 16px 32px -8px rgba(16, 185, 129, 0.45); }
 #floating-whatsapp:active { transform: translateY(0) scale(0.98); }
 
-/* Logo Modal */
-#logo-modal::backdrop {
-  background:           rgba(9, 9, 11, 0.88);
-  backdrop-filter:      blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-#logo-modal[open] {
-  animation: modal-pop-in var(--duration-normal) var(--ease-decelerate);
-}
-
-@keyframes modal-pop-in {
-  from { opacity: 0; transform: scale(0.95) translateY(12px); }
-  to   { opacity: 1; transform: scale(1)    translateY(0); }
-}
-
-.logo-concept-card {
-  transition: border-color var(--duration-normal) var(--ease-standard),
-              transform    var(--duration-normal) var(--ease-standard),
-              box-shadow   var(--duration-normal) var(--ease-standard);
-}
-
-.logo-concept-card:hover {
-  transform:    translateY(-3px);
-  border-color: rgba(20, 184, 166, 0.45);
-  box-shadow:   0 16px 36px -12px rgba(20, 184, 166, 0.2);
-}
-
 /* Service Selection Chips */
 .service-chip {
   transition: border-color     var(--duration-fast) var(--ease-standard),
