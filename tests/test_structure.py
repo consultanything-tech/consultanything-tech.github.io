@@ -1221,10 +1221,13 @@ class TestSiteStructure(unittest.TestCase):
         
         expected_screenshots = [
             "spslnt.webp",
+            "spslnt-mobile.webp",
             "the1494.webp",
+            "the1494-mobile.webp",
             "hyperfetch.webp",
             "indiacrafted.webp",
             "spendwise.webp",
+            "spendwise-mobile.webp",
             "sciencehub.webp",
         ]
         for filename in expected_screenshots:
