@@ -1127,7 +1127,7 @@ class TestSiteStructure(unittest.TestCase):
         # Context bridge explaining the console's purpose
         self.assertRegex(
             index_content,
-            r'(?i)(?:Client Impact Spotlight|Live Production Platforms|What We(?:\'|&apos;)ve Built)',
+            r'(?i)(?:Live Client Projects|Client Impact Spotlight|Live Production Platforms|What We(?:\'|&apos;)ve Built)',
             "Hero must feature an explanatory caption/context bridge for the showcase card",
         )
 
@@ -1196,6 +1196,17 @@ class TestSiteStructure(unittest.TestCase):
             index_content,
             r'(?i)(?:Principal\s+Systems\s+Architect|Lead\s+Product\s+(?:&|and)\s+Mobile\s+Engineer)',
             "Team profiles must detail technical roles and engineering specializations",
+        )
+        # Direct engagement & availability indicators
+        self.assertIn(
+            "Works directly on your project",
+            index_content,
+            "Team profiles must indicate that senior engineers work directly on projects",
+        )
+        self.assertIn(
+            "Available for projects",
+            index_content,
+            "Team profiles must indicate engineer availability for client projects",
         )
 
     def test_30_engagement_process_steps(self):
