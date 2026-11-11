@@ -768,6 +768,11 @@ class TestSiteStructure(unittest.TestCase):
             r'https://wa\.me/6588240325\?text=Hi%20CATech%2C%20I%27d%20like%20to%20discuss%20a%20project\.',
             "WhatsApp link must contain pre-filled message for initiating project discussions",
         )
+        self.assertIn(
+            "What%20I%20need%20built",
+            index_content,
+            "WhatsApp link must contain guiding questions for project scoping",
+        )
 
     def test_20_expanded_project_portfolio(self):
         """Verify portfolio showcase contains all live client platforms and open-source public repos."""
