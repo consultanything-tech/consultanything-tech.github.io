@@ -33,7 +33,7 @@ Production-grade SVG vector marks located in `assets/logos/`:
 
 - **Email**: [buildwithcatech@gmail.com](mailto:buildwithcatech@gmail.com)
 - **Phone**: [+65 88240325](tel:+6588240325)
-- **WhatsApp**: [Chat on WhatsApp (+65 88240325)](https://wa.me/6588240325?text=Hello%20CATech%2C%20I%27m%20reaching%20out%20from%20your%20official%20website%20regarding%20...)
+- **WhatsApp**: [Chat on WhatsApp (+65 88240325)](https://wa.me/6588240325?text=Hi%20CATech%2C%20I%27d%20like%20to%20discuss%20a%20project.)
 - **GitHub**: [github.com/consultanything-tech](https://github.com/consultanything-tech)
 
 ---

@@ -765,8 +765,8 @@ class TestSiteStructure(unittest.TestCase):
         )
         self.assertRegex(
             index_content,
-            r'https://wa\.me/6588240325\?text=Hello%20(?:ConsultAnythingTech|CATech)%2C%20I%27m%20reaching%20out%20from%20your%20official%20website',
-            "WhatsApp link must contain pre-filled message identifying visitor from official website",
+            r'https://wa\.me/6588240325\?text=Hi%20CATech%2C%20I%27d%20like%20to%20discuss%20a%20project\.',
+            "WhatsApp link must contain pre-filled message for initiating project discussions",
         )
 
     def test_20_expanded_project_portfolio(self):
