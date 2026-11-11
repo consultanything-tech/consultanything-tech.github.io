@@ -115,7 +115,7 @@ class TestSiteStructure(unittest.TestCase):
                 is_org_or_service = type_val in ["Organization", "ProfessionalService"]
                 has_name = any(n in name_val for n in ["ConsultAnythingTech", "CATech"])
                 has_url = any(u in url_val for u in ["consultanything-tech.github.io", "catech.dev"])
-                has_email = data.get("email") == "consultanythingtech@gmail.com"
+                has_email = data.get("email") == "buildwithcatech@gmail.com"
 
                 if is_org_or_service and has_name and has_url and has_email:
                     break
@@ -123,7 +123,7 @@ class TestSiteStructure(unittest.TestCase):
                 self.fail(f"Invalid JSON in application/ld+json: {err}")
         else:
             self.fail(
-                "JSON-LD must specify @type as Organization or ProfessionalService with name 'CATech' or 'ConsultAnythingTech', URL 'https://catech.dev' or 'https://consultanything-tech.github.io', and email 'consultanythingtech@gmail.com'"
+                "JSON-LD must specify @type as Organization or ProfessionalService with name 'CATech' or 'ConsultAnythingTech', URL 'https://catech.dev' or 'https://consultanything-tech.github.io', and email 'buildwithcatech@gmail.com'"
             )
 
     def test_05_navigation_and_accessibility(self):
@@ -570,14 +570,14 @@ class TestSiteStructure(unittest.TestCase):
 
         # Direct mailto, phone, WhatsApp, and GitHub links
         self.assertIn(
-            "consultanythingtech@gmail.com",
+            "buildwithcatech@gmail.com",
             contact_content,
-            "Contact section must display email consultanythingtech@gmail.com",
+            "Contact section must display email buildwithcatech@gmail.com",
         )
         self.assertRegex(
             contact_content,
-            r'href=["\']mailto:consultanythingtech@gmail\.com["\']',
-            "Contact section must provide direct mailto link to consultanythingtech@gmail.com",
+            r'href=["\']mailto:buildwithcatech@gmail\.com["\']',
+            "Contact section must provide direct mailto link to buildwithcatech@gmail.com",
         )
         self.assertIn(
             "+65 88240325",

@@ -31,7 +31,7 @@ Production-grade SVG vector marks located in `assets/logos/`:
 
 ## Contact & Direct Channels
 
-- **Email**: [consultanythingtech@gmail.com](mailto:consultanythingtech@gmail.com)
+- **Email**: [buildwithcatech@gmail.com](mailto:buildwithcatech@gmail.com)
 - **Phone**: [+65 88240325](tel:+6588240325)
 - **WhatsApp**: [Chat on WhatsApp (+65 88240325)](https://wa.me/6588240325?text=Hello%20CATech%2C%20I%27m%20reaching%20out%20from%20your%20official%20website%20regarding%20...)
 - **GitHub**: [github.com/consultanything-tech](https://github.com/consultanything-tech)
