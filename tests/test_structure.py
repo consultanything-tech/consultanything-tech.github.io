@@ -116,14 +116,17 @@ class TestSiteStructure(unittest.TestCase):
                 has_name = any(n in name_val for n in ["ConsultAnythingTech", "CATech"])
                 has_url = any(u in url_val for u in ["consultanything-tech.github.io", "catech.dev"])
                 has_email = data.get("email") == "buildwithcatech@gmail.com"
+                address = data.get("address", {})
+                has_singapore_address = isinstance(address, dict) and address.get("addressLocality") == "Singapore"
+                has_singapore_area = data.get("areaServed") == "Singapore"
 
-                if is_org_or_service and has_name and has_url and has_email:
+                if is_org_or_service and has_name and has_url and has_email and has_singapore_address and has_singapore_area:
                     break
             except json.JSONDecodeError as err:
                 self.fail(f"Invalid JSON in application/ld+json: {err}")
         else:
             self.fail(
-                "JSON-LD must specify @type as Organization or ProfessionalService with name 'CATech' or 'ConsultAnythingTech', URL 'https://catech.dev' or 'https://consultanything-tech.github.io', and email 'buildwithcatech@gmail.com'"
+                "JSON-LD must specify @type as Organization or ProfessionalService with name 'CATech' or 'ConsultAnythingTech', URL 'https://catech.dev' or 'https://consultanything-tech.github.io', email 'buildwithcatech@gmail.com', addressLocality 'Singapore', and areaServed 'Singapore'"
             )
 
     def test_05_navigation_and_accessibility(self):
