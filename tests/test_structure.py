@@ -1289,6 +1289,13 @@ class TestSiteStructure(unittest.TestCase):
             "styles.css must configure min-height: 5rem on .glass-header",
         )
 
+    def test_34_mid_page_ctas(self):
+        """Verify mid-page conversion nudges at the end of Services and Outcomes sections."""
+        content = self.index_path.read_text(encoding="utf-8")
+        self.assertIn('id="services-cta"', content, "Services section must feature a conversion nudge banner")
+        self.assertIn('id="outcomes-cta"', content, "Outcomes section must feature a conversion nudge banner")
+        self.assertRegex(content, r'href=[\'"]https://wa\.me/6588240325[^\'"]*[\'"]', "Mid-page CTAs must link to WhatsApp")
+
 
 if __name__ == "__main__":
     unittest.main()
