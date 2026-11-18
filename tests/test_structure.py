@@ -1296,6 +1296,18 @@ class TestSiteStructure(unittest.TestCase):
         self.assertIn('id="outcomes-cta"', content, "Outcomes section must feature a conversion nudge banner")
         self.assertRegex(content, r'href=[\'"]https://wa\.me/6588240325[^\'"]*[\'"]', "Mid-page CTAs must link to WhatsApp")
 
+    def test_35_faq_section(self):
+        """Verify presence and accessibility of objection-busting FAQ section."""
+        content = self.index_path.read_text(encoding="utf-8")
+        self.assertIn('id="faq"', content, "FAQ section with id='faq' must exist")
+        self.assertIn("Frequently Asked Questions", content)
+        # Check that critical objections are addressed
+        self.assertRegex(content, r"cost|pricing|budget", re.IGNORECASE)
+        self.assertRegex(content, r"how\s+long|timeline|week", re.IGNORECASE)
+        self.assertRegex(content, r"intellectual\s+property|own\s+the\s+code|IP", re.IGNORECASE)
+        self.assertRegex(content, r"NDA|confidential", re.IGNORECASE)
+        self.assertRegex(content, r"support|after\s+launch|maintenance", re.IGNORECASE)
+
 
 if __name__ == "__main__":
     unittest.main()
