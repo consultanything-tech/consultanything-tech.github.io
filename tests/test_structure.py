@@ -1308,6 +1308,13 @@ class TestSiteStructure(unittest.TestCase):
         self.assertRegex(content, r"NDA|confidential", re.IGNORECASE)
         self.assertRegex(content, r"support|after\s+launch|maintenance", re.IGNORECASE)
 
+    def test_36_mobile_contact_and_sticky_bar(self):
+        """Verify mobile contact optimization and sticky quick-action bar."""
+        content = self.index_path.read_text(encoding="utf-8")
+        self.assertIn('id="mobile-sticky-bar"', content, "Mobile sticky quick-contact bar must exist")
+        self.assertIn('md:hidden', content, "Mobile bar must only render on mobile viewports")
+        self.assertRegex(content, r'href=[\'"]https://wa\.me/6588240325[^\'"]*[\'"]', "Mobile bar must link to WhatsApp")
+
 
 if __name__ == "__main__":
     unittest.main()
