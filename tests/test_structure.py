@@ -1315,6 +1315,54 @@ class TestSiteStructure(unittest.TestCase):
         self.assertIn('md:hidden', content, "Mobile bar must only render on mobile viewports")
         self.assertRegex(content, r'href=[\'"]https://wa\.me/6588240325[^\'"]*[\'"]', "Mobile bar must link to WhatsApp")
 
+    def test_37_responsive_section_spacing(self):
+        """Verify responsive vertical padding on major sections and section dividers."""
+        content = self.index_path.read_text(encoding="utf-8")
+        major_sections = ["services", "outcomes", "products", "capabilities", "about", "faq", "contact"]
+        for section_id in major_sections:
+            section_match = re.search(
+                rf'<section\s+[^>]*id=["\']{section_id}["\'][^>]*class=["\']([^"\']+)["\']',
+                content,
+            )
+            self.assertIsNotNone(section_match, f"#{section_id} section tag must exist with a class attribute")
+            section_class = section_match.group(1)
+            self.assertIn(
+                "py-10",
+                section_class,
+                f"#{section_id} section must include responsive mobile padding py-10",
+            )
+            self.assertIn(
+                "md:py-20",
+                section_class,
+                f"#{section_id} section must include desktop padding md:py-20",
+            )
+
+            # Check inner border-t divider within the section
+            inner_section_match = re.search(
+                rf'<section\s+[^>]*id=["\']{section_id}["\'][^>]*>(.*?)</section>',
+                content,
+                re.DOTALL,
+            )
+            self.assertIsNotNone(inner_section_match, f"#{section_id} content must exist")
+            divider_match = re.search(
+                r'<div\s+[^>]*class=["\']([^"\']*border-t[^"\']*)["\']',
+                inner_section_match.group(1),
+            )
+            self.assertIsNotNone(
+                divider_match,
+                f"#{section_id} must have an inner border divider",
+            )
+            divider_class = divider_match.group(1)
+            self.assertIn(
+                "pt-8",
+                divider_class,
+                f"#{section_id} divider must include responsive mobile padding pt-8",
+            )
+            self.assertTrue(
+                "md:pt-16" in divider_class or "sm:pt-12" in divider_class,
+                f"#{section_id} divider must include responsive desktop/tablet padding (md:pt-16 or sm:pt-12)",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
