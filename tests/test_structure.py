@@ -788,7 +788,7 @@ class TestSiteStructure(unittest.TestCase):
             "ScienceHub": "https://sciencehub.experthub.store/",
             "HyperFetch": "https://consultanything-tech.github.io/hyperfetch-app/",
             "ProofPath": "https://github.com/consultanything-tech/ProofPath",
-            "IndiaCrafted": "https://IndiaCrafted.com",
+            "IndiaCrafted": "https://indiacrafted.com",
             "SpendWise": "https://spendwise.experthub.store/",
         }
 
@@ -891,13 +891,13 @@ class TestSiteStructure(unittest.TestCase):
             "Hero showcase must display a live production status indicator",
         )
 
-        # 4. Tablist with tabs for SPSLNT, The 1494, and SpendWise
+        # 4. Tablist with tabs for SPSLNT, IndiaCrafted, The 1494, and SpendWise
         self.assertRegex(
             index_content,
             r'role=["\']tablist["\']',
             "Hero showcase must include an accessible role='tablist'",
         )
-        for tab_id in ["tab-console-spslnt", "tab-console-1494", "tab-console-spendwise"]:
+        for tab_id in ["tab-console-spslnt", "tab-console-indiacrafted", "tab-console-1494", "tab-console-spendwise"]:
             self.assertRegex(
                 index_content,
                 rf'id=["\']{tab_id}["\'][^>]*role=["\']tab["\']|role=["\']tab["\'][^>]*id=["\']{tab_id}["\']',
@@ -905,7 +905,7 @@ class TestSiteStructure(unittest.TestCase):
             )
 
         # 5. Tab panels with accessible role="tabpanel"
-        for panel_id in ["panel-console-spslnt", "panel-console-1494", "panel-console-spendwise"]:
+        for panel_id in ["panel-console-spslnt", "panel-console-indiacrafted", "panel-console-1494", "panel-console-spendwise"]:
             self.assertRegex(
                 index_content,
                 rf'id=["\']{panel_id}["\'][^>]*role=["\']tabpanel["\']|role=["\']tabpanel["\'][^>]*id=["\']{panel_id}["\']',
@@ -913,7 +913,7 @@ class TestSiteStructure(unittest.TestCase):
             )
 
         # 6. Screenshots present in hero showcase
-        for screenshot in ["spslnt.webp", "the1494.webp", "spendwise.webp"]:
+        for screenshot in ["spslnt.webp", "indiacrafted.webp", "the1494.webp", "spendwise.webp"]:
             self.assertRegex(
                 index_content,
                 rf'(?s)id=["\']hero-console["\'].*?{re.escape(screenshot)}',
@@ -921,7 +921,7 @@ class TestSiteStructure(unittest.TestCase):
             )
 
         # 7. Live public links present
-        for link in ["spslnt.sg", "the1494.com", "spendwise.experthub.store"]:
+        for link in ["spslnt.sg", "indiacrafted.com", "the1494.com", "spendwise.experthub.store"]:
             self.assertRegex(
                 index_content,
                 rf'(?s)id=["\']hero-console["\'].*?{re.escape(link)}',
@@ -1009,7 +1009,7 @@ class TestSiteStructure(unittest.TestCase):
         # 4. Showcase a11y polish items: valid tabindex on panels and accessible status indicators
         self.assertRegex(
             index_content,
-            r'id=["\']panel-console-(?:spslnt|1494|spendwise|native)["\'][^>]*tabindex=["\']0["\']|tabindex=["\']0["\'][^>]*id=["\']panel-console-(?:spslnt|1494|spendwise|native)["\']',
+            r'id=["\']panel-console-(?:spslnt|indiacrafted|1494|spendwise|native)["\'][^>]*tabindex=["\']0["\']|tabindex=["\']0["\'][^>]*id=["\']panel-console-(?:spslnt|indiacrafted|1494|spendwise|native)["\']',
             "Hero showcase panels must have tabindex='0' for keyboard accessibility",
         )
         self.assertRegex(
@@ -1122,29 +1122,28 @@ class TestSiteStructure(unittest.TestCase):
     def test_27_client_outcomes_and_proof_section(self):
         """Verify client outcomes and social proof section with metrics and case study highlights."""
         index_content = self.index_path.read_text(encoding="utf-8")
-        self.assertRegex(
-            index_content,
-            r'id=["\'](?:proof|outcomes|results)["\']',
-            "index.html must include a client outcomes/proof section with id='proof', 'outcomes', or 'results'",
-        )
+        outcomes_match = re.search(r'<section\s+[^>]*id=["\'](?:proof|outcomes|results)["\'][^>]*>(.*?)</section>', index_content, re.DOTALL)
+        self.assertIsNotNone(outcomes_match, "index.html must include a client outcomes/proof section with id='proof', 'outcomes', or 'results'")
+        outcomes_content = outcomes_match.group(1)
+
         # Outcome metrics & quotes
         self.assertRegex(
-            index_content,
+            outcomes_content,
             r'(?i)(?:Measured\s+Impact|Proven\s+Outcomes|Client\s+Results|Platform\s+Outcomes)',
             "Proof section must showcase measured client impact or proven outcomes",
         )
         # SpendWise badge in outcomes section
         self.assertRegex(
-            index_content,
+            outcomes_content,
             r'(?i)(?:Finance App|Personal Finance)',
             "SpendWise card in outcomes section must feature 'Finance App' or 'Personal Finance' badge",
         )
-        # Verified delivery stories for real platforms (SPSLNT, The 1494, SpendWise)
-        for platform in ["SPSLNT", "The 1494"]:
+        # Verified delivery stories for real platforms (SPSLNT, IndiaCrafted, The 1494)
+        for platform in ["SPSLNT", "IndiaCrafted", "The 1494"]:
             self.assertIn(
                 platform,
-                index_content,
-                f"Proof section or portfolio must highlight real deployment story for {platform}",
+                outcomes_content,
+                f"Proof section must highlight real deployment story for {platform}",
             )
 
     def test_28_visual_product_previews(self):
@@ -1225,6 +1224,7 @@ class TestSiteStructure(unittest.TestCase):
             "the1494-mobile.webp",
             "hyperfetch.webp",
             "indiacrafted.webp",
+            "indiacrafted-mobile.webp",
             "spendwise.webp",
             "spendwise-mobile.webp",
             "sciencehub.webp",
