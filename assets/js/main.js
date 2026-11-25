@@ -19,8 +19,22 @@ document.addEventListener("DOMContentLoaded", () => {
     menuButton.setAttribute("aria-expanded", String(nextState));
     if (nextState) {
       mobileMenu.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        if (menuButton.getAttribute("aria-expanded") === "true") {
+          mobileMenu.classList.add("is-open");
+        }
+      });
     } else {
-      mobileMenu.classList.add("hidden");
+      mobileMenu.classList.remove("is-open");
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        mobileMenu.classList.add("hidden");
+      } else {
+        setTimeout(() => {
+          if (!mobileMenu.classList.contains("is-open")) {
+            mobileMenu.classList.add("hidden");
+          }
+        }, 180);
+      }
     }
   }
 
@@ -66,11 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
       tab.setAttribute("aria-selected", String(isSelected));
       tab.setAttribute("tabindex", isSelected ? "0" : "-1");
       if (isSelected) {
-        tab.classList.add("text-white", "bg-indigo-600", "shadow-sm", "shadow-indigo-600/30");
-        tab.classList.remove("text-slate-400", "hover:text-white", "hover:bg-slate-800/60");
+        tab.classList.add("text-white", "bg-teal-600", "shadow-sm", "shadow-teal-600/30");
+        tab.classList.remove("text-slate-400", "hover:text-white", "hover:bg-zinc-800/60");
       } else {
-        tab.classList.remove("text-white", "bg-indigo-600", "shadow-sm", "shadow-indigo-600/30");
-        tab.classList.add("text-slate-400", "hover:text-white", "hover:bg-slate-800/60");
+        tab.classList.remove("text-white", "bg-teal-600", "shadow-sm", "shadow-teal-600/30");
+        tab.classList.add("text-slate-400", "hover:text-white", "hover:bg-zinc-800/60");
       }
     });
 
@@ -576,17 +590,37 @@ document.addEventListener("DOMContentLoaded", () => {
     let autoRotateTimer = null;
     let isPaused = false;
     let isVisible = true;
+    let userInteracted = false;
 
-    function switchConsoleTab(activeTab, shouldFocus = false) {
+    consoleTabs.forEach((tab) => {
+      if (!tab.querySelector(".console-tab-progress")) {
+        const progressEl = document.createElement("span");
+        progressEl.className = "console-tab-progress";
+        progressEl.setAttribute("aria-hidden", "true");
+        tab.appendChild(progressEl);
+      }
+    });
+
+    function switchConsoleTab(activeTab, shouldFocus = false, fromUser = false) {
+      if (fromUser) {
+        userInteracted = true;
+        stopAutoRotate();
+      }
+
       consoleTabs.forEach((tab, idx) => {
         const isSelected = tab === activeTab;
         tab.setAttribute("aria-selected", String(isSelected));
         tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+        tab.classList.remove("is-auto-rotating");
         if (isSelected) {
           currentIndex = idx;
           tab.classList.add("border-teal-400", "text-teal-300", "bg-teal-950/30");
           tab.classList.remove("border-transparent", "text-slate-400", "hover:text-slate-200");
           if (shouldFocus) tab.focus();
+          if (!userInteracted && !reducedMotionQuery.matches) {
+            void tab.offsetWidth;
+            tab.classList.add("is-auto-rotating");
+          }
         } else {
           tab.classList.remove("border-teal-400", "text-teal-300", "bg-teal-950/30");
           tab.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200");
@@ -604,7 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     consoleTabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => switchConsoleTab(tab));
+      tab.addEventListener("click", () => switchConsoleTab(tab, false, true));
 
       // ARIA Roving Tabindex & Keyboard Navigation
       tab.addEventListener("keydown", (e) => {
@@ -621,17 +655,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (nextIndex !== null) {
           e.preventDefault();
-          switchConsoleTab(consoleTabs[nextIndex], true);
+          switchConsoleTab(consoleTabs[nextIndex], true, true);
         }
       });
     });
 
     // Auto-rotation every ~5 seconds when visible and not hovered/focused
     function startAutoRotate() {
-      if (reducedMotionQuery.matches) return;
+      if (userInteracted || reducedMotionQuery.matches) return;
       stopAutoRotate();
+      const activeTab = consoleTabs[currentIndex];
+      if (activeTab) {
+        void activeTab.offsetWidth;
+        activeTab.classList.add("is-auto-rotating");
+      }
       autoRotateTimer = setInterval(() => {
-        if (!isPaused && isVisible && consoleTabs.length > 0) {
+        if (!isPaused && isVisible && !userInteracted && consoleTabs.length > 0) {
           const nextIndex = (currentIndex + 1) % consoleTabs.length;
           switchConsoleTab(consoleTabs[nextIndex]);
         }
@@ -643,6 +682,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(autoRotateTimer);
         autoRotateTimer = null;
       }
+      consoleTabs.forEach((tab) => tab.classList.remove("is-auto-rotating"));
     }
 
     if (consoleContainer) {
@@ -707,10 +747,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const rotateX = ((y - centerY) / centerY) * -5.0;
         const rotateY = ((x - centerX) / centerX) * 5.0;
 
+        card.classList.add("is-tilting");
         card.style.transform = `perspective(1000px) translateY(-4px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`;
       });
 
       card.addEventListener("pointerleave", () => {
+        card.classList.remove("is-tilting");
         card.style.transform = "";
       });
     });

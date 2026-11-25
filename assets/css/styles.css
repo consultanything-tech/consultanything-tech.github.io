@@ -19,9 +19,9 @@
   --duration-slow:    400ms;
   --duration-slower:  600ms;
 
-  --ease-standard:    cubic-bezier(0.2, 0, 0, 1);
-  --ease-decelerate:  cubic-bezier(0, 0, 0.2, 1);
-  --ease-out:         cubic-bezier(0, 0, 0.2, 1);
+  --ease-standard:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-decelerate:  cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out:         cubic-bezier(0.23, 1, 0.32, 1);
   --ease-accelerate:  cubic-bezier(0.4, 0, 1, 1);
 
   --distance-sm: 4px;
@@ -34,10 +34,16 @@
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration:       0.01ms !important;
-    animation-iteration-count: 1     !important;
-    transition-duration:      0.01ms !important;
-    scroll-behavior:          auto   !important;
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-property:       opacity, color, background-color, border-color !important;
+    transition-duration:       150ms  !important;
+    scroll-behavior:           auto   !important;
+  }
+
+  #mobile-menu,
+  .console-panel {
+    transform: none !important;
   }
 
   .spotlight-card,
@@ -60,11 +66,17 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--color-bg);
   color: #f4f4f5; /* zinc-100 */
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+code,
+pre,
+.font-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 /* Glassmorphism Header */
@@ -81,6 +93,19 @@ body {
 .glass-header.scrolled {
   background: rgba(9, 9, 11, 0.96);
   border-bottom-color: rgba(20, 184, 166, 0.2);
+}
+
+/* Mobile Navigation Drawer */
+#mobile-menu {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top center;
+  transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out);
+}
+
+#mobile-menu.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 /* Ambient Glow Accents */
@@ -116,23 +141,47 @@ body {
 
 /* Interactive Hero Systems Console & Architecture Monitor */
 #hero-console {
-  transition: transform var(--duration-normal) var(--ease-standard),
-              border-color var(--duration-normal) var(--ease-standard),
-              box-shadow var(--duration-normal) var(--ease-standard);
-}
-
-#hero-console:hover {
-  border-color: rgba(45, 212, 191, 0.4);
-  box-shadow: 0 20px 40px -15px rgba(20, 184, 166, 0.15), 0 0 0 1px rgba(45, 212, 191, 0.15);
+  transition: transform 200ms var(--ease-out),
+              border-color 200ms var(--ease-out),
+              box-shadow 200ms var(--ease-out);
 }
 
 .console-tab {
+  position: relative;
   cursor: pointer;
   outline: none;
 }
 
 .console-tab:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-brand);
+}
+
+.console-tab-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-brand), #2dd4bf);
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.console-tab[aria-selected="true"].is-auto-rotating .console-tab-progress {
+  opacity: 1;
+  animation: consoleTabProgress 5s linear forwards;
+}
+
+#hero-console:hover .console-tab.is-auto-rotating .console-tab-progress,
+#hero-console:focus-within .console-tab.is-auto-rotating .console-tab-progress {
+  animation-play-state: paused;
+}
+
+@keyframes consoleTabProgress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
 .console-panel {
@@ -153,27 +202,15 @@ body {
 
 /* Interactive Cards */
 .interactive-card {
-  transition: transform      var(--duration-normal) var(--ease-standard),
-              border-color   var(--duration-normal) var(--ease-standard),
-              box-shadow     var(--duration-normal) var(--ease-standard);
-}
-
-.interactive-card:hover {
-  transform:    translateY(-2px);
-  border-color: rgba(20, 184, 166, 0.35);
-  box-shadow:   0 12px 30px -10px rgba(20, 184, 166, 0.12);
+  transition: transform      200ms var(--ease-out),
+              border-color   200ms var(--ease-out),
+              box-shadow     200ms var(--ease-out);
 }
 
 .service-card {
-  transition: transform      var(--duration-normal) var(--ease-standard),
-              border-color   var(--duration-normal) var(--ease-standard),
-              box-shadow     var(--duration-normal) var(--ease-standard);
-}
-
-.service-card:hover {
-  transform:    translateY(-4px);
-  border-color: rgba(20, 184, 166, 0.4);
-  box-shadow:   0 20px 40px -15px rgba(20, 184, 166, 0.15);
+  transition: transform      200ms var(--ease-out),
+              border-color   200ms var(--ease-out),
+              box-shadow     200ms var(--ease-out);
 }
 
 /* 3D Tilt and Spotlight Shaders */
@@ -188,8 +225,12 @@ body {
   overflow: hidden;
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: transform var(--duration-fast) var(--ease-out),
-              border-color var(--duration-fast);
+  transition: transform 200ms var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out);
+}
+
+.tilt-card.is-tilting {
+  transition: border-color var(--duration-fast);
 }
 
 .spotlight-card::before {
@@ -205,11 +246,7 @@ body {
   opacity: 0;
   pointer-events: none;
   z-index: 1;
-  transition: opacity var(--duration-normal) var(--ease-standard);
-}
-
-.spotlight-card:hover::before {
-  opacity: 1;
+  transition: opacity var(--duration-normal) var(--ease-out);
 }
 
 .spotlight-card > * {
@@ -219,18 +256,12 @@ body {
 
 /* Product Cards */
 .product-card {
-  transition: transform    var(--duration-normal) var(--ease-standard),
-              border-color var(--duration-normal) var(--ease-standard),
-              box-shadow   var(--duration-normal) var(--ease-standard),
-              opacity      var(--duration-normal) var(--ease-standard);
+  transition: transform    200ms var(--ease-out),
+              border-color 200ms var(--ease-out),
+              box-shadow   200ms var(--ease-out),
+              opacity      var(--duration-normal) var(--ease-out);
   opacity:   1;
   transform: translateY(0) scale(1);
-}
-
-.product-card:hover {
-  transform:    translateY(-4px);
-  border-color: rgba(20, 184, 166, 0.4);
-  box-shadow:   0 20px 40px -15px rgba(20, 184, 166, 0.15);
 }
 
 .product-card-hidden {
@@ -258,12 +289,6 @@ body {
   transition: background-color var(--duration-fast) var(--ease-standard),
               border-color      var(--duration-fast) var(--ease-standard),
               color             var(--duration-fast) var(--ease-standard);
-}
-
-.tech-tag:hover {
-  border-color:     rgba(20, 184, 166, 0.45);
-  background-color: rgba(20, 184, 166, 0.12);
-  color:            #99f6e4; /* teal-200 */
 }
 
 /* Accessible Focus Ring */
@@ -309,7 +334,6 @@ textarea:focus-visible {
               transform         var(--duration-fast) var(--ease-standard);
 }
 
-#back-to-top:hover  { transform: translateY(-1px); }
 #back-to-top:active { transform: translateY(0); }
 
 /* Floating WhatsApp */
@@ -319,8 +343,52 @@ textarea:focus-visible {
               background-color  var(--duration-fast) var(--ease-standard);
 }
 
-#floating-whatsapp:hover  { transform: translateY(-2px) scale(1.03); box-shadow: 0 16px 32px -8px rgba(16, 185, 129, 0.45); }
 #floating-whatsapp:active { transform: translateY(0) scale(0.98); }
+
+/* Hover-Capable Pointer Enhancements */
+@media (hover: hover) and (pointer: fine) {
+  #hero-console:hover {
+    border-color: rgba(45, 212, 191, 0.4);
+    box-shadow: 0 20px 40px -15px rgba(20, 184, 166, 0.15), 0 0 0 1px rgba(45, 212, 191, 0.15);
+  }
+
+  .interactive-card:hover {
+    transform:    translateY(-2px);
+    border-color: rgba(20, 184, 166, 0.35);
+    box-shadow:   0 12px 30px -10px rgba(20, 184, 166, 0.12);
+  }
+
+  .service-card:hover {
+    transform:    translateY(-4px);
+    border-color: rgba(20, 184, 166, 0.4);
+    box-shadow:   0 20px 40px -15px rgba(20, 184, 166, 0.15);
+  }
+
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
+
+  .product-card:hover {
+    transform:    translateY(-4px);
+    border-color: rgba(20, 184, 166, 0.4);
+    box-shadow:   0 20px 40px -15px rgba(20, 184, 166, 0.15);
+  }
+
+  .tech-tag:hover {
+    border-color:     rgba(20, 184, 166, 0.45);
+    background-color: rgba(20, 184, 166, 0.12);
+    color:            #99f6e4; /* teal-200 */
+  }
+
+  #back-to-top:hover {
+    transform: translateY(-1px);
+  }
+
+  #floating-whatsapp:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 16px 32px -8px rgba(16, 185, 129, 0.45);
+  }
+}
 
 /* Service Selection Chips */
 .service-chip {
@@ -343,8 +411,8 @@ textarea:focus-visible {
 /* Scroll-Triggered Reveals */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  transform: translateY(12px);
+  transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
 }
 
 .reveal-on-scroll.is-revealed {

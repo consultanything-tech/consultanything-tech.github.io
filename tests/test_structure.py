@@ -1055,8 +1055,8 @@ class TestSiteStructure(unittest.TestCase):
         # 4. styles.css scroll reveals and reduced-motion overrides
         self.assertRegex(
             css_content,
-            r'\.reveal-on-scroll\s*\{[^}]*opacity:\s*0;[^}]*transform:\s*translateY\(24px\)',
-            "styles.css must define .reveal-on-scroll with opacity: 0 and translateY(24px)",
+            r'\.reveal-on-scroll\s*\{[^}]*opacity:\s*0;[^}]*transform:\s*translateY\(12px\)',
+            "styles.css must define .reveal-on-scroll with opacity: 0 and translateY(12px)",
         )
         self.assertRegex(
             css_content,
@@ -1362,6 +1362,76 @@ class TestSiteStructure(unittest.TestCase):
                 "md:pt-16" in divider_class or "sm:pt-12" in divider_class,
                 f"#{section_id} divider must include responsive desktop/tablet padding (md:pt-16 or sm:pt-12)",
             )
+
+    def test_38_design_craft_and_consistency(self):
+        """Verify design system craft, pointer media guards, interactive states, and palette consistency."""
+        index_content = self.index_path.read_text(encoding="utf-8")
+        js_content = self.js_path.read_text(encoding="utf-8")
+        css_content = self.css_path.read_text(encoding="utf-8")
+
+        self.assertNotIn(
+            "bg-indigo-600",
+            js_content,
+            "main.js must not use bg-indigo-600 (should use teal/zinc palette)",
+        )
+        self.assertIn(
+            "@media (hover: hover) and (pointer: fine)",
+            css_content,
+            "styles.css must guard hover/tilt effects with @media (hover: hover) and (pointer: fine)",
+        )
+        self.assertIn(".is-tilting", css_content, "styles.css must style .is-tilting")
+        self.assertIn("is-tilting", js_content, "main.js must toggle is-tilting")
+
+        self.assertTrue(
+            "#mobile-menu.is-open" in css_content or ".is-open" in css_content,
+            "styles.css must define #mobile-menu.is-open (or .is-open) state",
+        )
+        self.assertIn(
+            "console-tab-progress",
+            css_content + js_content,
+            "styles.css or main.js must include console-tab-progress",
+        )
+
+        hero_match = re.search(
+            r'<section\s+[^>]*id=["\']hero["\'][^>]*>(.*?)</section>',
+            index_content,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(hero_match, "#hero section must exist in index.html")
+        hero_html = hero_match.group(1)
+        self.assertIn("ambient-glow-teal", hero_html, "#hero must include ambient-glow-teal")
+        self.assertIn("ambient-glow-amber", hero_html, "#hero must include ambient-glow-amber")
+
+        self.assertIn("Plus Jakarta Sans", index_content, "index.html must include Plus Jakarta Sans")
+
+        products_match = re.search(
+            r'<section\s+[^>]*id=["\']products["\'][^>]*>(.*?)</section>',
+            index_content,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(products_match, "#products section must exist in index.html")
+        tablist_match = re.search(
+            r'<[^>]*role=["\']tablist["\'][^>]*>',
+            products_match.group(1),
+        )
+        self.assertIsNotNone(tablist_match, '#products must contain a role="tablist" container')
+        self.assertIn(
+            "flex-wrap",
+            tablist_match.group(0),
+            '#products role="tablist" container must include flex-wrap',
+        )
+
+        about_match = re.search(
+            r'<section\s+[^>]*id=["\']about["\'][^>]*>(.*?)</section>',
+            index_content,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(about_match, "#about section must exist in index.html")
+        about_html = about_match.group(1)
+        self.assertTrue(
+            "AI &amp; Security Systems Lead" in about_html or "AI & Security Systems Lead" in about_html,
+            "#about must contain 'AI & Security Systems Lead'",
+        )
 
 
 if __name__ == "__main__":
